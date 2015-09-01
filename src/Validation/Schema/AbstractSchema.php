@@ -7,7 +7,7 @@ use Validation\ValidationException;
 abstract class AbstractSchema
 {
     /**
-     * @var array
+     * @var \Closure[]
      */
     private $assertions = [];
 
@@ -18,9 +18,7 @@ abstract class AbstractSchema
     public function validate($value)
     {
         foreach ($this->assertions as $assertion) {
-            if (false === $assertion($value)) {
-                throw new ValidationException('Validation failed');
-            }
+            $value = $assertion($value);
         }
 
         return $value;
