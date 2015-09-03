@@ -2,33 +2,55 @@
 
 namespace Validation\Schema;
 
-use Validation\ValidationException;
+use Validation\Assertions;
+use Validation\InputValue;
 
 abstract class AbstractSchema
 {
     /**
-     * @var \Closure[]
+     * @var Assertions\AbstractAssertion[]
      */
     private $assertions = [];
 
     /**
-     * @param $value
-     * @throws ValidationException
+     * @param InputValue $input
+     * @return mixed
      */
-    public function validate($value)
+    public function process(InputValue $input)
     {
-        foreach ($this->assertions as $assertion) {
-            $value = $assertion($value);
+        foreach ($this->assertions() as $assertion) {
+            $assertion->process($input);
         }
 
-        return $value;
+        return $input->getValue();
     }
 
     /**
-     * @param \Closure $assertion
+     * @return Assertions\AbstractAssertion[]
      */
-    protected function addAssertion(\Closure $assertion)
+    protected function assertions()
+    {
+        return $this->assertions;
+    }
+
+    public function optional()
+    {
+        $this->assert(new Assertions\Optional());
+    }
+
+    /**
+     * @param Assertions\AbstractAssertion $assertion
+     */
+    protected function assert(Assertions\AbstractAssertion $assertion)
     {
         $this->assertions[] = $assertion;
+    }
+
+    /**
+     * @param Assertions\AbstractAssertion[] $assertions
+     */
+    protected function assertAll(array $assertions)
+    {
+        $this->assertions = array_merge($this->assertions, $assertions);
     }
 }

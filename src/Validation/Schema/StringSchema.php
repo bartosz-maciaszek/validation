@@ -2,21 +2,14 @@
 
 namespace Validation\Schema;
 
+use Validation\Assertions;
 use Validation\Utils;
-use Validation\ValidationException;
 
 class StringSchema extends AbstractSchema
 {
     public function __construct()
     {
-        $this->addAssertion(function($value) {
-
-            if (!is_string($value)) {
-                throw new ValidationException('value is not a string');
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\IsString());
     }
 
     /**
@@ -25,14 +18,7 @@ class StringSchema extends AbstractSchema
      */
     public function min($number)
     {
-        $this->addAssertion(function($value) use ($number) {
-
-            if (strlen($value) < $number) {
-                throw new ValidationException(sprintf('value length < %d', $number));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\MinLength(['number' => $number]));
 
         return $this;
     }
@@ -43,14 +29,7 @@ class StringSchema extends AbstractSchema
      */
     public function max($number)
     {
-        $this->addAssertion(function($value) use ($number) {
-
-            if (strlen($value) > $number) {
-                throw new ValidationException(sprintf('value length > %d', $number));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\MaxLength(['number' => $number]));
 
         return $this;
     }
@@ -61,16 +40,7 @@ class StringSchema extends AbstractSchema
      */
     public function valid(...$arguments)
     {
-        $validValues = Utils::varadicToArray($arguments);
-
-        $this->addAssertion(function($value) use ($validValues) {
-
-            if (!in_array($value, $validValues)) {
-                throw new ValidationException(sprintf('"%s" is not allowed', $value));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\InArray(['allowed' => Utils::varadicToArray($arguments)]));
 
         return $this;
     }
@@ -81,16 +51,7 @@ class StringSchema extends AbstractSchema
      */
     public function invalid(...$arguments)
     {
-        $invalidValues = Utils::varadicToArray($arguments);
-
-        $this->addAssertion(function($value) use ($invalidValues) {
-
-            if (in_array($value, $invalidValues)) {
-                throw new ValidationException(sprintf('"%s" is disallowed', $value));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::varadicToArray($arguments)]));
 
         return $this;
     }
@@ -101,14 +62,7 @@ class StringSchema extends AbstractSchema
      */
     public function length($length)
     {
-        $this->addAssertion(function($value) use ($length) {
-
-            if (strlen($value) != $length) {
-                throw new ValidationException(sprintf('value length is %d, expected %d', strlen($value), $length));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\Length(['number' => $length]));
 
         return $this;
     }
@@ -119,14 +73,7 @@ class StringSchema extends AbstractSchema
      */
     public function regex($pattern)
     {
-        $this->addAssertion(function($value) use ($pattern) {
-
-            if (!preg_match($pattern, $value)) {
-                throw new ValidationException(sprintf('value does not match pattern %s', $pattern));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\Regex(['pattern' => $pattern]));
 
         return $this;
     }
@@ -136,14 +83,7 @@ class StringSchema extends AbstractSchema
      */
     public function alphanum()
     {
-        $this->addAssertion(function($value) {
-
-            if (!ctype_alnum($value)) {
-                throw new ValidationException('value contains not alphanumeric chars');
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\AlphaNum());
 
         return $this;
     }
@@ -153,14 +93,10 @@ class StringSchema extends AbstractSchema
      */
     public function token()
     {
-        $this->addAssertion(function($value) {
-
-            if (!preg_match('/^[A-Za-z0-9_]+$/', $value)) {
-                throw new ValidationException('value is not a token');
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\Regex([
+            'pattern' => '/^[A-Za-z0-9_]+$/',
+            'message' => 'value is not a token'
+        ]));
 
         return $this;
     }
@@ -171,14 +107,7 @@ class StringSchema extends AbstractSchema
      */
     public function lowercase($convert = true)
     {
-        $this->addAssertion(function($value) use ($convert) {
-
-            if ($convert === false && !ctype_lower($value)) {
-                throw new ValidationException('value must be lowercase');
-            }
-
-            return strtolower($value);
-        });
+        $this->assert(new Assertions\Lowercase(['convert' => $convert]));
 
         return $this;
     }
@@ -189,14 +118,7 @@ class StringSchema extends AbstractSchema
      */
     public function uppercase($convert = true)
     {
-        $this->addAssertion(function($value) use ($convert) {
-
-            if ($convert === false && !ctype_upper($value)) {
-                throw new ValidationException('value must be uppercase');
-            }
-
-            return strtoupper($value);
-        });
+        $this->assert(new Assertions\Uppercase(['convert' => $convert]));
 
         return $this;
     }
@@ -208,9 +130,7 @@ class StringSchema extends AbstractSchema
      */
     public function replace($search, $replace)
     {
-        $this->addAssertion(function($value) use ($search, $replace) {
-            return str_replace($search, $replace, $value);
-        });
+        $this->assert(new Assertions\StringReplace(['search' => $search, 'replace' => $replace]));
 
         return $this;
     }
@@ -222,9 +142,7 @@ class StringSchema extends AbstractSchema
      */
     public function regexReplace($pattern, $replace)
     {
-        $this->addAssertion(function($value) use ($pattern, $replace) {
-            return preg_replace($pattern, $replace, $value);
-        });
+        $this->assert(new Assertions\RegexReplace(['pattern' => $pattern, 'replace' => $replace]));
 
         return $this;
     }
@@ -234,14 +152,7 @@ class StringSchema extends AbstractSchema
      */
     public function email()
     {
-        $this->addAssertion(function($value) {
-
-            if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                throw new ValidationException(sprintf('"%s" is not a valid email', $value));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\Email());
 
         return $this;
     }
@@ -250,16 +161,9 @@ class StringSchema extends AbstractSchema
      * @param int $options
      * @return $this
      */
-    public function ip($options = FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6)
+    public function ip($options = null)
     {
-        $this->addAssertion(function($value) use ($options) {
-
-            if (!filter_var($value, FILTER_VALIDATE_IP, $options)) {
-                throw new ValidationException(sprintf('"%s" is not a valid IP address', $value));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\IpAddress(['options' => $options]));
 
         return $this;
     }
@@ -270,22 +174,7 @@ class StringSchema extends AbstractSchema
      */
     public function uri($options = null)
     {
-        $this->addAssertion(function($value) use ($options) {
-
-            if ($options == null) {
-                if (!filter_var($value, FILTER_VALIDATE_URL)) {
-                    throw new ValidationException(sprintf('"%s" is not a valid URI', $value));
-                }
-
-                return $value;
-            }
-
-            if (!filter_var($value, FILTER_VALIDATE_URL, $options)) {
-                throw new ValidationException(sprintf('"%s" is not a valid URI', $value));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\Uri(['options' => $options]));
 
         return $this;
     }
@@ -296,14 +185,7 @@ class StringSchema extends AbstractSchema
      */
     public function trim($convert = true)
     {
-        $this->addAssertion(function($value) use ($convert) {
-
-            if ($convert === false && trim($value) !== $value) {
-                throw new ValidationException('value is not trimmed');
-            }
-
-            return trim($value);
-        });
+        $this->assert(new Assertions\Trim(['convert' => $convert]));
 
         return $this;
     }

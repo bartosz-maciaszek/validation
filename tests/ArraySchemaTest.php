@@ -40,6 +40,21 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
         });
     }
 
+    public function testKeysMissing()
+    {
+        $input = [ 'foo' => 'bar' ];
+
+        $schema = V::arr()->keys([
+            'foo' => V::string(),
+            'baz' => V::string()
+        ]);
+
+        V::validate($input, $schema, function($err, $validated) use ($input) {
+            $this->assertEquals('key "baz" is missing', $err);
+            $this->assertNull($validated);
+        });
+    }
+
     public function testKeysNegative1()
     {
         $input = [ 'foo' => 'bar', 'baz' => 'quux', 'array' => [ 'foo' => 'bar', 'baz' => 'quux' ] ];
@@ -54,7 +69,20 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
         ]);
 
         V::validate($input, $schema, function($err, $validated) {
-            $this->assertEquals('"array" is invalid, because [ "baz" is invalid, because [ "quux" is not allowed ] ]', $err);
+            $this->assertEquals('key "array" is invalid, because [ key "baz" is invalid, because [ value "quux" is not allowed ] ]', $err);
+            $this->assertNull($validated);
+        });
+    }
+
+    public function testArrayNotEmpty()
+    {
+        V::validate([1, 2, 3], V::arr()->notEmpty(), function($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([1, 2, 3], $validated);
+        });
+
+        V::validate([], V::arr()->notEmpty(), function($err, $validated) {
+            $this->assertEquals('value is an empty array', $err);
             $this->assertNull($validated);
         });
     }

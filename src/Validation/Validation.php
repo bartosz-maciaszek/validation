@@ -13,17 +13,11 @@ class Validation
      */
     public static function validate($value, AbstractSchema $schema, \Closure $callback)
     {
-        $err = null;
-
         try {
-            $value = $schema->validate($value);
+            $callback(null, $schema->process(new InputValue($value)));
         }
         catch (ValidationException $e) {
-            $value = null;
-            $err = $e->getMessage();
-        }
-        finally {
-            $callback($err, $value);
+            $callback($e->getMessage(), null);
         }
     }
 
@@ -62,7 +56,7 @@ class Validation
     /**
      * @return Schema\DateSchema
      */
-    public function date()
+    public static function date()
     {
         return new Schema\DateSchema();
     }
@@ -70,7 +64,7 @@ class Validation
     /**
      * @return Schema\BooleanSchema
      */
-    public function boolean()
+    public static function boolean()
     {
         return new Schema\BooleanSchema();
     }
@@ -78,8 +72,17 @@ class Validation
     /**
      * @return Schema\ResourceSchema
      */
-    public function resource()
+    public static function resource()
     {
         return new Schema\ResourceSchema();
+    }
+
+    /**
+     * @param ...$arguments
+     * @return Schema\AlternativeSchema
+     */
+    public static function alternative(...$arguments)
+    {
+        return new Schema\AlternativeSchema(Utils::varadicToArray($arguments));
     }
 }

@@ -2,21 +2,13 @@
 
 namespace Validation\Schema;
 
-use Validation\Validation;
-use Validation\ValidationException;
+use Validation\Assertions;
 
 class ArraySchema extends AbstractSchema
 {
     public function __construct()
     {
-        $this->addAssertion(function($value) {
-
-            if (!is_array($value)) {
-                throw new ValidationException('value is not an array');
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\IsArray());
     }
 
     /**
@@ -25,26 +17,17 @@ class ArraySchema extends AbstractSchema
      */
     public function keys(array $keys)
     {
-        $this->addAssertion(function($value) use ($keys) {
+        $this->assert(new Assertions\ArrayKeys(['keys' => $keys]));
 
-            foreach ($keys as $key => $schema) {
+        return $this;
+    }
 
-                if (!isset($value[$key])) {
-                    throw new ValidationException(sprintf('key "%s" is missing', $key));
-                }
-
-                Validation::validate($value[$key], $schema, function($err, $validated) use ($value, $key) {
-
-                    if ($err !== null) {
-                        throw new ValidationException(sprintf('"%s" is invalid, because [ %s ]', $key, $err));
-                    }
-
-                    $value[$key] = $validated;
-                });
-            }
-
-            return $value;
-        });
+    /**
+     * @return $this
+     */
+    public function notEmpty()
+    {
+        $this->assert(new Assertions\NotEmptyArray());
 
         return $this;
     }

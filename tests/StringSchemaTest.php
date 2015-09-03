@@ -68,7 +68,7 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
         });
 
         V::validate('foo', V::string()->valid('bar'), function($err, $validated) {
-            $this->assertEquals('"foo" is not allowed', $err);
+            $this->assertEquals('value "foo" is not allowed', $err);
             $this->assertNull($validated);
         });
     }
@@ -81,17 +81,17 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
         });
 
         V::validate('bar', V::string()->invalid('foo', 'bar'), function($err, $validated) {
-            $this->assertEquals('"bar" is disallowed', $err);
+            $this->assertEquals('value "bar" is disallowed', $err);
             $this->assertNull($validated);
         });
 
         V::validate('bar', V::string()->invalid(['foo', 'bar']), function($err, $validated) {
-            $this->assertEquals('"bar" is disallowed', $err);
+            $this->assertEquals('value "bar" is disallowed', $err);
             $this->assertNull($validated);
         });
 
         V::validate('bar', V::string()->invalid('bar'), function($err, $validated) {
-            $this->assertEquals('"bar" is disallowed', $err);
+            $this->assertEquals('value "bar" is disallowed', $err);
             $this->assertNull($validated);
         });
     }
@@ -341,6 +341,11 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
 
         V::validate('http://localhost/dir/test.html', V::string()->uri(FILTER_FLAG_QUERY_REQUIRED), function($err, $validated) {
             $this->assertEquals('"http://localhost/dir/test.html" is not a valid URI', $err);
+            $this->assertNull($validated);
+        });
+
+        V::validate('foobar', V::string()->uri(), function($err, $validated) {
+            $this->assertEquals('"foobar" is not a valid URI', $err);
             $this->assertNull($validated);
         });
     }

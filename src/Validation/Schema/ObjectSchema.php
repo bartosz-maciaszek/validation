@@ -2,20 +2,13 @@
 
 namespace Validation\Schema;
 
-use Validation\ValidationException;
+use Validation\Assertions;
 
 class ObjectSchema extends AbstractSchema
 {
     public function __construct()
     {
-        $this->addAssertion(function($value) {
-
-            if (!is_object($value)) {
-                throw new ValidationException('value is not an object');
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\IsObject());
     }
 
     /**
@@ -24,14 +17,7 @@ class ObjectSchema extends AbstractSchema
      */
     public function instance($className)
     {
-        $this->addAssertion(function($value) use ($className) {
-
-            if (!$value instanceof $className) {
-                throw new ValidationException(sprintf('object is not an instance of %s', $className));
-            }
-
-            return $value;
-        });
+        $this->assert(new Assertions\Instance(['of' => $className]));
 
         return $this;
     }
