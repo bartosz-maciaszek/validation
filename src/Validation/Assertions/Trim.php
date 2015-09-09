@@ -19,7 +19,7 @@ class Trim extends AbstractAssertion
             throw new ValidationException('value is not trimmed');
         }
 
-        $input->replace(function($value) {
+        $input->replace(function ($value) {
             return trim($value);
         });
     }

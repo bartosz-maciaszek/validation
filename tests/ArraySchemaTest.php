@@ -8,18 +8,18 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
 {
     public function testObjectType()
     {
-        V::validate([], V::arr(), function($err, $validated) {
+        V::validate([], V::arr(), function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals([], $validated);
         });
 
-        V::validate(123, V::arr(), function($err, $validated) {
+        V::validate(123, V::arr(), function ($err, $validated) {
             $this->assertEquals('value is not an array', $err);
             $this->assertNull($validated);
         });
 
 
-        V::validate('foo', V::arr(), function($err, $validated) {
+        V::validate('foo', V::arr(), function ($err, $validated) {
             $this->assertEquals('value is not an array', $err);
             $this->assertNull($validated);
         });
@@ -34,7 +34,7 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             'baz' => V::string()->valid('quux')
         ]);
 
-        V::validate($input, $schema, function($err, $validated) use ($input) {
+        V::validate($input, $schema, function ($err, $validated) use ($input) {
             $this->assertNull($err);
             $this->assertEquals($input, $validated);
         });
@@ -49,7 +49,7 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             'baz' => V::string()
         ]);
 
-        V::validate($input, $schema, function($err, $validated) use ($input) {
+        V::validate($input, $schema, function ($err, $validated) use ($input) {
             $this->assertEquals('key "baz" is missing', $err);
             $this->assertNull($validated);
         });
@@ -68,7 +68,7 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             ])
         ]);
 
-        V::validate($input, $schema, function($err, $validated) {
+        V::validate($input, $schema, function ($err, $validated) {
             $this->assertEquals('key "array" is invalid, because [ key "baz" is invalid, because [ value "quux" is not allowed ] ]', $err);
             $this->assertNull($validated);
         });
@@ -76,12 +76,12 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayNotEmpty()
     {
-        V::validate([1, 2, 3], V::arr()->notEmpty(), function($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->notEmpty(), function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals([1, 2, 3], $validated);
         });
 
-        V::validate([], V::arr()->notEmpty(), function($err, $validated) {
+        V::validate([], V::arr()->notEmpty(), function ($err, $validated) {
             $this->assertEquals('value is an empty array', $err);
             $this->assertNull($validated);
         });

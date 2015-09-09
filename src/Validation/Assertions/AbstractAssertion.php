@@ -48,8 +48,7 @@ abstract class AbstractAssertion
 
                 $this->options = $validated;
             });
-        }
-        else {
+        } else {
             $this->options = $options;
         }
     }

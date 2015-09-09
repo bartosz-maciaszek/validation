@@ -13,7 +13,7 @@ class StringReplace extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        $input->replace(function($value) {
+        $input->replace(function ($value) {
             return str_replace($this->getOption('search'), $this->getOption('replace'), $value);
         });
     }

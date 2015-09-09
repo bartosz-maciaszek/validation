@@ -13,7 +13,7 @@ class RegexReplace extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        $input->replace(function($value) {
+        $input->replace(function ($value) {
             return preg_replace($this->getOption('pattern'), $this->getOption('replace'), $value);
         });
     }

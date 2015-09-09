@@ -19,7 +19,7 @@ class Lowercase extends AbstractAssertion
             throw new ValidationException('value must be lowercase');
         }
 
-        $input->replace(function($value) {
+        $input->replace(function ($value) {
             return strtolower($value);
         });
     }

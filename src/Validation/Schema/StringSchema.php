@@ -40,7 +40,7 @@ class StringSchema extends AbstractSchema
      */
     public function valid(...$arguments)
     {
-        $this->assert(new Assertions\InArray(['allowed' => Utils::varadicToArray($arguments)]));
+        $this->assert(new Assertions\InArray(['allowed' => Utils::variadicToArray($arguments)]));
 
         return $this;
     }
@@ -51,7 +51,7 @@ class StringSchema extends AbstractSchema
      */
     public function invalid(...$arguments)
     {
-        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::varadicToArray($arguments)]));
+        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::variadicToArray($arguments)]));
 
         return $this;
     }

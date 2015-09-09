@@ -19,7 +19,7 @@ class Uppercase extends AbstractAssertion
             throw new ValidationException('value must be uppercase');
         }
 
-        $input->replace(function($value) {
+        $input->replace(function ($value) {
             return strtoupper($value);
         });
     }

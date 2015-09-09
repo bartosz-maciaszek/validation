@@ -15,8 +15,7 @@ class Validation
     {
         try {
             $callback(null, $schema->process(new InputValue($value)));
-        }
-        catch (ValidationException $e) {
+        } catch (ValidationException $e) {
             $callback($e->getMessage(), null);
         }
     }
@@ -83,6 +82,6 @@ class Validation
      */
     public static function alternative(...$arguments)
     {
-        return new Schema\AlternativeSchema(Utils::varadicToArray($arguments));
+        return new Schema\AlternativeSchema(Utils::variadicToArray($arguments));
     }
 }

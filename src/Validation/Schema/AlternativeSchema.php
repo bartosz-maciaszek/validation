@@ -23,12 +23,11 @@ class AlternativeSchema extends AbstractSchema
     public function process(InputValue $input)
     {
         foreach ($this->assertions() as $assertion) {
-
             try {
                 $assertion->process($input);
                 return $input->getValue();
+            } catch (ValidationException $e) {
             }
-            catch(ValidationException $e) {}
         }
 
 
