@@ -5,7 +5,7 @@ namespace Validation\Assertions;
 use Validation\InputValue;
 use Validation\ValidationException;
 
-class MaxLength extends AbstractAssertion
+class StringAlphaNum extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -13,11 +13,8 @@ class MaxLength extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        $number = $this->getOption('number');
-        $length = strlen($input->getValue());
-
-        if ($length > $number) {
-            throw new ValidationException(sprintf('value length > %d', $number));
+        if (!ctype_alnum($input->getValue())) {
+            throw new ValidationException('value contains not alphanumeric chars');
         }
     }
 }

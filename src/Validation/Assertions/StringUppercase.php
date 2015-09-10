@@ -7,7 +7,7 @@ use Validation\Schema\AbstractSchema;
 use Validation\Validation as V;
 use Validation\ValidationException;
 
-class Trim extends AbstractAssertion
+class StringUppercase extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -15,12 +15,12 @@ class Trim extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        if ($this->getOption('convert') === false && trim($input->getValue()) !== $input->getValue()) {
-            throw new ValidationException('value is not trimmed');
+        if ($this->getOption('convert') === false && !ctype_upper($input->getValue())) {
+            throw new ValidationException('value must be uppercase');
         }
 
         $input->replace(function ($value) {
-            return trim($value);
+            return strtoupper($value);
         });
     }
 

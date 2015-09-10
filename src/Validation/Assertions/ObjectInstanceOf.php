@@ -7,7 +7,7 @@ use Validation\Schema\AbstractSchema;
 use Validation\Validation as V;
 use Validation\ValidationException;
 
-class Uppercase extends AbstractAssertion
+class ObjectInstanceOf extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -15,13 +15,11 @@ class Uppercase extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        if ($this->getOption('convert') === false && !ctype_upper($input->getValue())) {
-            throw new ValidationException('value must be uppercase');
-        }
+        $name = $this->getOption('of');
 
-        $input->replace(function ($value) {
-            return strtoupper($value);
-        });
+        if (!$input->getValue() instanceof $name) {
+            throw new ValidationException(sprintf('object is not an instance of %s', $name));
+        }
     }
 
     /**
@@ -30,7 +28,7 @@ class Uppercase extends AbstractAssertion
     protected function getOptionsSchema()
     {
         return V::arr()->keys([
-            'convert' => V::boolean()
+            'of' => V::string()->min(1)
         ]);
     }
 }

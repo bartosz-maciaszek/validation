@@ -5,7 +5,7 @@ namespace Validation\Assertions;
 use Validation\InputValue;
 use Validation\ValidationException;
 
-class NotEmptyArray extends AbstractAssertion
+class BooleanFalse extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -13,8 +13,8 @@ class NotEmptyArray extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        if (count($input->getValue()) === 0) {
-            throw new ValidationException('value is an empty array');
+        if ($input->getValue() !== false) {
+            throw new ValidationException('value is not FALSE');
         }
     }
 }

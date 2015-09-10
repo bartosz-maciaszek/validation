@@ -16,7 +16,7 @@ class Validation
         try {
             $callback(null, $schema->process(new InputValue($value)));
         } catch (ValidationException $e) {
-            $callback($e->getMessage(), null);
+            $callback(new ValidationError($e), null);
         }
     }
 

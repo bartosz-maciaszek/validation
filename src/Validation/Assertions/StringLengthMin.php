@@ -5,7 +5,7 @@ namespace Validation\Assertions;
 use Validation\InputValue;
 use Validation\ValidationException;
 
-class True extends AbstractAssertion
+class StringLengthMin extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -13,8 +13,11 @@ class True extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        if ($input->getValue() !== true) {
-            throw new ValidationException('value is not TRUE');
+        $number = $this->getOption('length');
+        $length = strlen($input->getValue());
+
+        if ($length < $number) {
+            throw new ValidationException(sprintf('value length < %d', $number));
         }
     }
 }

@@ -7,7 +7,7 @@ use Validation\Schema\AbstractSchema;
 use Validation\Validation as V;
 use Validation\ValidationException;
 
-class Instance extends AbstractAssertion
+class StringTrim extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -15,11 +15,13 @@ class Instance extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        $name = $this->getOption('of');
-
-        if (!$input->getValue() instanceof $name) {
-            throw new ValidationException(sprintf('object is not an instance of %s', $name));
+        if ($this->getOption('convert') === false && trim($input->getValue()) !== $input->getValue()) {
+            throw new ValidationException('value is not trimmed');
         }
+
+        $input->replace(function ($value) {
+            return trim($value);
+        });
     }
 
     /**
@@ -28,7 +30,7 @@ class Instance extends AbstractAssertion
     protected function getOptionsSchema()
     {
         return V::arr()->keys([
-            'of' => V::string()->min(1)
+            'convert' => V::boolean()
         ]);
     }
 }

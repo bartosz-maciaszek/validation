@@ -10,32 +10,11 @@ class InputValue
     private $value = null;
 
     /**
-     * @var bool
-     */
-    private $optional = false;
-
-    /**
      * @param mixed $value
      */
     public function __construct($value)
     {
         $this->setValue($value);
-    }
-
-    /**
-     * @param boolean $flag
-     */
-    public function setOptional($flag)
-    {
-        $this->optional = (boolean) $flag;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOptional()
-    {
-        return $this->optional;
     }
 
     /**

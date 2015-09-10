@@ -17,7 +17,7 @@ class ObjectSchema extends AbstractSchema
      */
     public function instance($className)
     {
-        $this->assert(new Assertions\Instance(['of' => $className]));
+        $this->assert(new Assertions\ObjectInstanceOf(['of' => $className]));
 
         return $this;
     }

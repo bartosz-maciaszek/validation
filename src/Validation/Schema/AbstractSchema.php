@@ -33,11 +33,6 @@ abstract class AbstractSchema
         return $this->assertions;
     }
 
-    public function optional()
-    {
-        $this->assert(new Assertions\Optional());
-    }
-
     /**
      * @param Assertions\AbstractAssertion $assertion
      */

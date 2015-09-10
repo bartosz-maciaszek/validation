@@ -7,7 +7,7 @@ use Validation\Schema\AbstractSchema;
 use Validation\Validation as V;
 use Validation\ValidationException;
 
-class Lowercase extends AbstractAssertion
+class StringLowercase extends AbstractAssertion
 {
     /**
      * @param InputValue $input

@@ -16,7 +16,7 @@ class BooleanSchema extends AbstractSchema
      */
     public function true()
     {
-        $this->assert(new Assertions\True());
+        $this->assert(new Assertions\BooleanTrue());
 
         return $this;
     }
@@ -26,7 +26,7 @@ class BooleanSchema extends AbstractSchema
      */
     public function false()
     {
-        $this->assert(new Assertions\False());
+        $this->assert(new Assertions\BooleanFalse());
 
         return $this;
     }

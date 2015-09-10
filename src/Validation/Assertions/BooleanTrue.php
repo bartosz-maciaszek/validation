@@ -5,7 +5,7 @@ namespace Validation\Assertions;
 use Validation\InputValue;
 use Validation\ValidationException;
 
-class AlphaNum extends AbstractAssertion
+class BooleanTrue extends AbstractAssertion
 {
     /**
      * @param InputValue $input
@@ -13,8 +13,8 @@ class AlphaNum extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        if (!ctype_alnum($input->getValue())) {
-            throw new ValidationException('value contains not alphanumeric chars');
+        if ($input->getValue() !== true) {
+            throw new ValidationException('value is not TRUE');
         }
     }
 }

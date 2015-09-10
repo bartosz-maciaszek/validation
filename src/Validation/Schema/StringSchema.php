@@ -13,23 +13,23 @@ class StringSchema extends AbstractSchema
     }
 
     /**
-     * @param $number
+     * @param $length
      * @return $this
      */
-    public function min($number)
+    public function min($length)
     {
-        $this->assert(new Assertions\MinLength(['number' => $number]));
+        $this->assert(new Assertions\StringLengthMin(['length' => $length]));
 
         return $this;
     }
 
     /**
-     * @param $number
+     * @param $length
      * @return $this
      */
-    public function max($number)
+    public function max($length)
     {
-        $this->assert(new Assertions\MaxLength(['number' => $number]));
+        $this->assert(new Assertions\StringLengthMax(['length' => $length]));
 
         return $this;
     }
@@ -62,7 +62,7 @@ class StringSchema extends AbstractSchema
      */
     public function length($length)
     {
-        $this->assert(new Assertions\Length(['number' => $length]));
+        $this->assert(new Assertions\StringLength(['length' => $length]));
 
         return $this;
     }
@@ -83,7 +83,7 @@ class StringSchema extends AbstractSchema
      */
     public function alphanum()
     {
-        $this->assert(new Assertions\AlphaNum());
+        $this->assert(new Assertions\StringAlphaNum());
 
         return $this;
     }
@@ -107,7 +107,7 @@ class StringSchema extends AbstractSchema
      */
     public function lowercase($convert = true)
     {
-        $this->assert(new Assertions\Lowercase(['convert' => $convert]));
+        $this->assert(new Assertions\StringLowercase(['convert' => $convert]));
 
         return $this;
     }
@@ -118,7 +118,7 @@ class StringSchema extends AbstractSchema
      */
     public function uppercase($convert = true)
     {
-        $this->assert(new Assertions\Uppercase(['convert' => $convert]));
+        $this->assert(new Assertions\StringUppercase(['convert' => $convert]));
 
         return $this;
     }
@@ -185,7 +185,7 @@ class StringSchema extends AbstractSchema
      */
     public function trim($convert = true)
     {
-        $this->assert(new Assertions\Trim(['convert' => $convert]));
+        $this->assert(new Assertions\StringTrim(['convert' => $convert]));
 
         return $this;
     }

@@ -3,12 +3,46 @@
 namespace Validation\Schema;
 
 use Validation\Assertions;
+use Validation\Utils;
 
 class ArraySchema extends AbstractSchema
 {
     public function __construct()
     {
         $this->assert(new Assertions\IsArray());
+    }
+
+    /**
+     * @param $length
+     * @return $this
+     */
+    public function length($length)
+    {
+        $this->assert(new Assertions\ArrayLength(['length' => $length]));
+
+        return $this;
+    }
+
+    /**
+     * @param $length
+     * @return $this
+     */
+    public function min($length)
+    {
+        $this->assert(new Assertions\ArrayLengthMin(['length' => $length]));
+
+        return $this;
+    }
+
+    /**
+     * @param $length
+     * @return $this
+     */
+    public function max($length)
+    {
+        $this->assert(new Assertions\ArrayLengthMax(['length' => $length]));
+
+        return $this;
     }
 
     /**
@@ -27,7 +61,7 @@ class ArraySchema extends AbstractSchema
      */
     public function notEmpty()
     {
-        $this->assert(new Assertions\NotEmptyArray());
+        $this->assert(new Assertions\ArrayNotEmpty());
 
         return $this;
     }
