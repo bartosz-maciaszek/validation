@@ -85,7 +85,10 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
         ]);
 
         V::validate($input, $schema, function ($err, $validated) {
-            $this->assertEquals('key "array" is invalid, because [ key "baz" is invalid, because [ value "quux" is not allowed ] ]', $err);
+            $message = 'key "array" is invalid, because '
+                     . '[ key "baz" is invalid, because '
+                     . '[ value "quux" is not allowed ] ]';
+            $this->assertEquals($message, $err);
             $this->assertNull($validated);
         });
     }

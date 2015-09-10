@@ -30,7 +30,7 @@ class InputValueTest extends \PHPUnit_Framework_TestCase
 
         $input->setValue(2);
 
-        $input->replace(function($value) {
+        $input->replace(function ($value) {
             return $value * 2;
         });
 

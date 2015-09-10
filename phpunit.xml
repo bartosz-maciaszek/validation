@@ -12,7 +12,6 @@
         >
     <logging>
         <log type="tap"/>
-        <!--log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/-->>
     </logging>
     <testsuites>
         <testsuite name="Validation Test Suite">

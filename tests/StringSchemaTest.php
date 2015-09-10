@@ -302,48 +302,83 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testStringUri()
+    public function testStringUriSimple()
     {
         V::validate('http://localhost/', V::string()->uri(), function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals('http://localhost/', $validated);
         });
+    }
 
+    public function testStringUriWithPath()
+    {
         V::validate('http://localhost/dir/test.html', V::string()->uri(), function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals('http://localhost/dir/test.html', $validated);
         });
+    }
 
-        V::validate('http://localhost/dir/test.html', V::string()->uri(FILTER_FLAG_PATH_REQUIRED), function ($err, $validated) {
+    public function testStringUriPathRequired()
+    {
+        $schema = V::string()->uri(FILTER_FLAG_PATH_REQUIRED);
+
+        V::validate('http://localhost/dir/test.html', $schema, function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals('http://localhost/dir/test.html', $validated);
         });
+    }
 
-        V::validate('http://localhost/dir/test.html?foo=bar', V::string()->uri(), function ($err, $validated) {
+    public function testStringUriWithQs()
+    {
+        $schema = V::string()->uri();
+
+        V::validate('http://localhost/dir/test.html?foo=bar', $schema, function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals('http://localhost/dir/test.html?foo=bar', $validated);
         });
+    }
 
-        V::validate('http://localhost/dir/test.html?foo=bar', V::string()->uri(FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED), function ($err, $validated) {
+    public function testStringUriQsRequired()
+    {
+        $schema = V::string()->uri(FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED);
+
+        V::validate('http://localhost/dir/test.html?foo=bar', $schema, function ($err, $validated) {
             $this->assertNull($err);
             $this->assertEquals('http://localhost/dir/test.html?foo=bar', $validated);
         });
+    }
 
-        V::validate('http://localhost', V::string()->uri(FILTER_FLAG_PATH_REQUIRED), function ($err, $validated) {
+    public function testStringUriPathRequiredNoPath()
+    {
+        $schema = V::string()->uri(FILTER_FLAG_PATH_REQUIRED);
+
+        V::validate('http://localhost', $schema, function ($err, $validated) {
             $this->assertEquals('"http://localhost" is not a valid URI', $err);
             $this->assertNull($validated);
         });
+    }
 
-        V::validate('http://localhost/', V::string()->uri(FILTER_FLAG_QUERY_REQUIRED), function ($err, $validated) {
+    public function testStringUriQsRequiredNoQs()
+    {
+        $schema = V::string()->uri(FILTER_FLAG_QUERY_REQUIRED);
+
+        V::validate('http://localhost/', $schema, function ($err, $validated) {
             $this->assertEquals('"http://localhost/" is not a valid URI', $err);
             $this->assertNull($validated);
         });
+    }
 
-        V::validate('http://localhost/dir/test.html', V::string()->uri(FILTER_FLAG_QUERY_REQUIRED), function ($err, $validated) {
+    public function testStringUriQsRequiredWithPath()
+    {
+        $schema = V::string()->uri(FILTER_FLAG_QUERY_REQUIRED);
+        V::validate('http://localhost/dir/test.html', $schema, function ($err, $validated) {
             $this->assertEquals('"http://localhost/dir/test.html" is not a valid URI', $err);
             $this->assertNull($validated);
         });
+    }
 
+    public function testStringUriPlainString()
+    {
         V::validate('foobar', V::string()->uri(), function ($err, $validated) {
             $this->assertEquals('"foobar" is not a valid URI', $err);
             $this->assertNull($validated);

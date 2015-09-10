@@ -15,7 +15,6 @@ class ArrayKeys extends AbstractAssertion
     public function process(InputValue $input)
     {
         foreach ($this->getOption('keys') as $key => $schema) {
-
             if (!isset($input->getValue()[$key])) {
                 throw new ValidationException(sprintf('key "%s" is missing', $key));
             }
