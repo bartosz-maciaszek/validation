@@ -40,7 +40,7 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testKeysMissing()
+    public function testKeysMissingKey()
     {
         $input = [ 'foo' => 'bar' ];
 
@@ -55,7 +55,23 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testKeysNegative1()
+    public function testKeysNestedWithConversion()
+    {
+        $input = [ 'foo' => [ 'bar' => 'baz' ]];
+
+        $schema = V::arr()->keys([
+            'foo' => V::arr()->keys([
+                'bar' => V::string()->uppercase()
+            ])
+        ]);
+
+        V::validate($input, $schema, function ($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([ 'foo' => [ 'bar' => 'BAZ' ]], $validated);
+        });
+    }
+
+    public function testKeysNestedInvalid()
     {
         $input = [ 'foo' => 'bar', 'baz' => 'quux', 'array' => [ 'foo' => 'bar', 'baz' => 'quux' ] ];
 

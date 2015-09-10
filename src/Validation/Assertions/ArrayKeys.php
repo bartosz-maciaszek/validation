@@ -15,6 +15,7 @@ class ArrayKeys extends AbstractAssertion
     public function process(InputValue $input)
     {
         foreach ($this->getOption('keys') as $key => $schema) {
+
             if (!isset($input->getValue()[$key])) {
                 throw new ValidationException(sprintf('key "%s" is missing', $key));
             }
@@ -25,7 +26,10 @@ class ArrayKeys extends AbstractAssertion
                     throw new ValidationException(sprintf('key "%s" is invalid, because [ %s ]', $key, $err));
                 }
 
-                $input->setValue($validated);
+                $input->replace(function ($value) use ($key, $validated) {
+                    $value[$key] = $validated;
+                    return $value;
+                });
             });
         }
     }

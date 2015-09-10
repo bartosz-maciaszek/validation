@@ -19,7 +19,7 @@ class InputValue
      */
     public function __construct($value)
     {
-        $this->setOptional($value);
+        $this->setValue($value);
     }
 
     /**
@@ -28,6 +28,14 @@ class InputValue
     public function setOptional($flag)
     {
         $this->optional = (boolean) $flag;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOptional()
+    {
+        return $this->optional;
     }
 
     /**
