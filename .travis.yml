@@ -7,6 +7,6 @@ php:
   - nightly
 
 script:
-  - make cs
   - make deps
+  - make cs
   - make test
