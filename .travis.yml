@@ -9,3 +9,6 @@ script:
   - make deps
   - make cs
   - make test
+
+after_script:
+  - make coveralls

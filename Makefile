@@ -8,6 +8,9 @@ lint:
 test:
 	./vendor/bin/phpunit
 
+coveralls:
+	./vendor/bin/coveralls -v
+
 deps:
 	composer install
 
