@@ -1,7 +1,7 @@
 About
 -----
 
-Validation library for PHP 5.5+ inspired by [Joi](https://github.com/hapijs/joi) from [Hapi](http://hapijs.com).
+Validation library for PHP 5.6+ inspired by [Joi](https://github.com/hapijs/joi) from [Hapi](http://hapijs.com).
 
 [![Build Status](https://travis-ci.org/bartosz-maciaszek/validation.svg?branch=master)](https://travis-ci.org/bartosz-maciaszek/validation)
 

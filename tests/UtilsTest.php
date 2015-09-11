@@ -8,7 +8,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
 {
     public function testVaradicToArray()
     {
-        $function = $this->provideVaradicFunction();
+        $function = $this->provideVariadicFunction();
 
         $this->assertEquals(['abc'], $function('abc'));
         $this->assertEquals(['abc'], $function(['abc']));
@@ -16,26 +16,26 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['abc', 'def'], $function('abc', 'def'));
     }
 
-    public function testVaradicToArrayEmptyArray()
+    public function testVariadicToArrayEmptyArray()
     {
         $this->setExpectedException('\InvalidArgumentException');
 
-        $function = $this->provideVaradicFunction();
+        $function = $this->provideVariadicFunction();
         $function([]);
     }
 
-    public function testVaradicToArrayNoArgs()
+    public function testVariadicToArrayNoArgs()
     {
         $this->setExpectedException('\InvalidArgumentException');
 
-        $function = $this->provideVaradicFunction();
+        $function = $this->provideVariadicFunction();
         $function();
     }
 
     /**
      * @return \Closure
      */
-    protected function provideVaradicFunction()
+    protected function provideVariadicFunction()
     {
         return function (...$arguments) {
             return Utils::variadicToArray($arguments);
