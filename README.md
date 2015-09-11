@@ -13,6 +13,65 @@ The recommended way to install the library is through [Composer](http://getcompo
 
     composer require bartosz-maciaszek/validation
 
+
+Examples
+--------
+
+Validation with the library is straightforward. You can validate primitives like this:
+
+    <?php
+    
+    use Validation\Validation as V;
+    
+    V::validate('foobar', V::string(), function($err, $validated) {
+        if ($err) {
+            echo 'Validation failed: ' . $err;
+            exit;
+        }
+        
+        echo $validated; // 'foobar'
+    });
+
+You can also chain other assertions:
+
+    V::validate('user@example.com', V::string()->email(), function($err, $validated) {
+        // ...
+    });
+
+Library also supports conversions:
+
+    V::validate('FooBar', V::string()->lowercase(), function($err, $validated) {
+        // $validated equals 'foobar'!
+    });
+
+Wanna something more complex? Let's try to validate an array!
+
+    $input = [
+        'foo' => 'bar',
+        'baz' => [
+            'quux' => 'foo',
+            'baz' => 'test-123456',
+            'bar' => 123,
+            'foo' => 'test123test'
+        ]
+    ];
+    
+    $schema = V::arr()->keys([
+        'foo' => V::string()->length(3),
+        'baz' => V::arr()->keys([
+            'quux' => V::string()->valid('foo', 'bar', 'baz')->uppercase(),
+            'baz' => V::string()->regex('/^test\-[0-9]+$/'),
+            'bar' => V::number()->min(100)->max(200),
+            'foo' => V::string()->replace('test', 123)
+        ])
+    ]);
+    
+    V::validate($input, $schema, function($err, $validated) {
+        var_dump($validated);
+    });
+
+Full documentation is on the way.
+
 Tests
 -----
 
