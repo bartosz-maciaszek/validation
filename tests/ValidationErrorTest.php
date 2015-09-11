@@ -13,10 +13,12 @@ class ValidationErrorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('test', $error->getMessage());
         $this->assertEquals('test', (string) $error);
+        $this->assertEquals('test', $error);
 
         $error->setMessage('foobar');
 
         $this->assertEquals('foobar', $error->getMessage());
         $this->assertEquals('foobar', (string) $error);
+        $this->assertEquals('foobar', $error);
     }
 }
