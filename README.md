@@ -11,7 +11,7 @@ Installation
 
 The recommended way to install the library is through [Composer](http://getcomposer.com)
 
-    composer require bartosz-maciaszek/validation "dev-master"
+    composer require bartosz-maciaszek/validation
 
 Tests
 -----
