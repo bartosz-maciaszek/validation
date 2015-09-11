@@ -8,6 +8,9 @@ lint:
 test:
 	./vendor/bin/phpunit
 
+deps:
+	composer install
+
 coverage:
 	./vendor/bin/phpunit --coverage-html=coverage
 
