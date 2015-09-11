@@ -3,7 +3,7 @@ About
 
 Validation library for PHP 5.6+ inspired by [Joi](https://github.com/hapijs/joi) from [Hapi](http://hapijs.com).
 
-[![Build Status](https://travis-ci.org/bartosz-maciaszek/validation.svg?branch=master)](https://travis-ci.org/bartosz-maciaszek/validation)
+[![Build Status](https://travis-ci.org/bartosz-maciaszek/validation.svg?branch=master)](https://travis-ci.org/bartosz-maciaszek/validation) [![Coverage Status](https://coveralls.io/repos/bartosz-maciaszek/validation/badge.svg?branch=master&service=github)](https://coveralls.io/github/bartosz-maciaszek/validation?branch=master)
 
 
 Installation
