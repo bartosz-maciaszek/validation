@@ -49,24 +49,4 @@ abstract class AbstractSchema
     {
         $this->assertions = array_merge($this->assertions, $assertions);
     }
-
-    /**
-     * @return $this
-     */
-    public function invalid()
-    {
-        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::variadicToArray(func_get_args())]));
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function valid()
-    {
-        $this->assert(new Assertions\InArray(['allowed' => Utils::variadicToArray(func_get_args())]));
-
-        return $this;
-    }
 }

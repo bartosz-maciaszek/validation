@@ -3,9 +3,8 @@
 namespace Validation\Schema;
 
 use Validation\Assertions;
-use Validation\Utils;
 
-class StringSchema extends AbstractSchema
+class StringSchema extends AnySchema
 {
     public function __construct()
     {

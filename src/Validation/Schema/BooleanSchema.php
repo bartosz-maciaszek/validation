@@ -4,7 +4,7 @@ namespace Validation\Schema;
 
 use Validation\Assertions;
 
-class BooleanSchema extends AbstractSchema
+class BooleanSchema extends AnySchema
 {
     public function __construct()
     {

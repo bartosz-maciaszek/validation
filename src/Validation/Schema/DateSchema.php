@@ -4,7 +4,7 @@ namespace Validation\Schema;
 
 use Validation\Assertions;
 
-class DateSchema extends AbstractSchema
+class DateSchema extends AnySchema
 {
     public function __construct()
     {

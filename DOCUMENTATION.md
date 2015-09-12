@@ -2,6 +2,9 @@
 
 - [Example](#example)
 - [Usage](#usage)
+    - [`validate($value, $schema[, $callback])`](#validatevalue-schema-callback)
+    - [`assert($value, $schema)`](#assertvalue-schema)
+    - [`attempt($value, $schema)`](#attemptvalue-schema)
     - [`any`](#any)
         - [`any::invalid($value)`](#anyinvalidvalue)
         - [`any::valid($value)`](#anyvalidvalue)
@@ -81,9 +84,13 @@ The code snippet illustrates how to check an input array against a set of constr
 * `sex`
     * "male" or "female" string, any other values are disallowed
 
-Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains `ValidationError` object and `$validated` argument is `null`. Otherwise `$err` argument is `null` and `$validated` argument contains validated/filtered input value. 
+Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains `ValidationException` object and `$validated` argument is `null`. Otherwise `$err` argument is `null` and `$validated` argument contains validated/filtered input value. 
 
 # Usage
+
+### `validate($value, $schema[, $callback])`
+### `assert($value, $schema)`
+### `attempt($value, $schema)`
 
 ### `any`
 

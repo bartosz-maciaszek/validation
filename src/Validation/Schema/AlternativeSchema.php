@@ -2,34 +2,18 @@
 
 namespace Validation\Schema;
 
-use Validation\InputValue;
-use Validation\ValidationException;
+use Validation\Utils;
+use Validation\Assertions;
 
-class AlternativeSchema extends AbstractSchema
+class AlternativeSchema extends AnySchema
 {
     /**
-     * @param array $assertions
+     * @return $this
      */
-    public function __construct(array $assertions)
+    public function any()
     {
-        $this->assertAll($assertions);
-    }
+        $this->assert(new Assertions\AlternativeAny(['options' => Utils::variadicToArray(func_get_args())]));
 
-    /**
-     * @param InputValue $input
-     * @return mixed
-     * @throws ValidationException
-     */
-    public function process(InputValue $input)
-    {
-        foreach ($this->assertions() as $assertion) {
-            try {
-                $assertion->process($input);
-                return $input->getValue();
-            } catch (ValidationException $e) {
-            }
-        }
-
-        throw new ValidationException('none of the alternatives matched');
+        return $this;
     }
 }

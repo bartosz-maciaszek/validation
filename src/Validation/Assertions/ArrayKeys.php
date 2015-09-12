@@ -19,17 +19,14 @@ class ArrayKeys extends AbstractAssertion
                 throw new ValidationException(sprintf('key "%s" is missing', $key));
             }
 
-            V::validate($input->getValue()[$key], $schema, function ($err, $validated) use ($input, $key) {
-
-                if ($err !== null) {
-                    throw new ValidationException(sprintf('key "%s" is invalid, because [ %s ]', $key, $err));
-                }
-
-                $input->replace(function ($value) use ($key, $validated) {
-                    $value[$key] = $validated;
+            try {
+                $input->replace(function ($value) use ($key, $schema) {
+                    $value[$key] = V::attempt($value[$key], $schema);
                     return $value;
                 });
-            });
+            } catch (ValidationException $e) {
+                throw new ValidationException(sprintf('key "%s" is invalid, because [ %s ]', $key, $e->getMessage()));
+            }
         }
     }
 }

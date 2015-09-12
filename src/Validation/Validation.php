@@ -7,17 +7,51 @@ use Validation\Schema\AbstractSchema;
 class Validation
 {
     /**
-     * @param mixed $value
+     * @param $value
      * @param AbstractSchema $schema
-     * @param \Closure $callback
+     * @param \Closure|null $callback
+     * @return mixed
      */
-    public static function validate($value, AbstractSchema $schema, \Closure $callback)
+    public static function validate($value, AbstractSchema $schema, \Closure $callback = null)
     {
-        try {
-            $callback(null, $schema->process(new InputValue($value)));
-        } catch (ValidationException $e) {
-            $callback(new ValidationError($e), null);
+        if ($callback === null) {
+            $callback = function ($err, $validated) {
+                return [ 'err' => $err, 'validated' => $validated ];
+            };
         }
+
+        try {
+            return $callback(null, $schema->process(new InputValue($value)));
+        } catch (ValidationException $e) {
+            return $callback($e, null);
+        }
+    }
+
+    /**
+     * @param $value
+     * @param AbstractSchema $schema
+     */
+    public static function assert($value, AbstractSchema $schema)
+    {
+        $schema->process(new InputValue($value));
+    }
+
+    /**
+     * @param $value
+     * @param AbstractSchema $schema
+     * @return mixed
+     */
+    public static function attempt($value, AbstractSchema $schema)
+    {
+        return $schema->process(new InputValue($value));
+    }
+
+    /**
+     * @return Schema\AnySchema
+     */
+    public static function any()
+    {
+        return new Schema\AnySchema();
     }
 
     /**
@@ -81,6 +115,6 @@ class Validation
      */
     public static function alternative()
     {
-        return new Schema\AlternativeSchema(Utils::variadicToArray(func_get_args()));
+        return new Schema\AlternativeSchema();
     }
 }

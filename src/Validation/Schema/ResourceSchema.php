@@ -4,7 +4,7 @@ namespace Validation\Schema;
 
 use Validation\Assertions;
 
-class ResourceSchema extends AbstractSchema
+class ResourceSchema extends AnySchema
 {
     public function __construct()
     {

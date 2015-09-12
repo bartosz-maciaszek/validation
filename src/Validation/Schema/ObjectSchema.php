@@ -4,7 +4,7 @@ namespace Validation\Schema;
 
 use Validation\Assertions;
 
-class ObjectSchema extends AbstractSchema
+class ObjectSchema extends AnySchema
 {
     public function __construct()
     {
