@@ -5,6 +5,7 @@ namespace Validation\Assertions;
 use Validation\InputValue;
 use Validation\Schema\AbstractSchema;
 use Validation\Validation as V;
+use Validation\ValidationException;
 
 abstract class AbstractAssertion
 {
@@ -41,13 +42,11 @@ abstract class AbstractAssertion
     public function setOptions(array $options)
     {
         if ($schema = $this->getOptionsSchema()) {
-            V::validate($options, $schema, function ($err, $validated) {
-                if ($err) {
-                    throw new \InvalidArgumentException($err);
-                }
-
-                $this->options = $validated;
-            });
+            try {
+                $this->options = V::attempt($options, $schema);
+            } catch (ValidationException $e) {
+                throw new \InvalidArgumentException($e);
+            }
         } else {
             $this->options = $options;
         }

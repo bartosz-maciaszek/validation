@@ -8,20 +8,20 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
 {
     public function testObjectType()
     {
-        V::validate([], V::arr(), function ($err, $validated) {
+        V::validate([], V::arr(), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([], $validated);
+            $this->assertEquals([], $output);
         });
 
-        V::validate(123, V::arr(), function ($err, $validated) {
+        V::validate(123, V::arr(), function ($err, $output) {
             $this->assertEquals('value is not an array', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
 
 
-        V::validate('foo', V::arr(), function ($err, $validated) {
+        V::validate('foo', V::arr(), function ($err, $output) {
             $this->assertEquals('value is not an array', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
@@ -34,9 +34,9 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             'baz' => V::string()->valid('quux')
         ]);
 
-        V::validate($input, $schema, function ($err, $validated) use ($input) {
+        V::validate($input, $schema, function ($err, $output) use ($input) {
             $this->assertNull($err);
-            $this->assertEquals($input, $validated);
+            $this->assertEquals($input, $output);
         });
     }
 
@@ -49,9 +49,9 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             'baz' => V::string()
         ]);
 
-        V::validate($input, $schema, function ($err, $validated) use ($input) {
+        V::validate($input, $schema, function ($err, $output) use ($input) {
             $this->assertEquals('key "baz" is missing', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
@@ -65,9 +65,9 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             ])
         ]);
 
-        V::validate($input, $schema, function ($err, $validated) {
+        V::validate($input, $schema, function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([ 'foo' => [ 'bar' => 'BAZ' ]], $validated);
+            $this->assertEquals([ 'foo' => [ 'bar' => 'BAZ' ]], $output);
         });
     }
 
@@ -84,74 +84,74 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             ])
         ]);
 
-        V::validate($input, $schema, function ($err, $validated) {
+        V::validate($input, $schema, function ($err, $output) {
             $message = 'key "array" is invalid, because '
                      . '[ key "baz" is invalid, because '
                      . '[ value "quux" is not allowed ] ]';
             $this->assertEquals($message, $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
     public function testArrayNotEmpty()
     {
-        V::validate([1, 2, 3], V::arr()->notEmpty(), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->notEmpty(), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([1, 2, 3], $validated);
+            $this->assertEquals([1, 2, 3], $output);
         });
 
-        V::validate([], V::arr()->notEmpty(), function ($err, $validated) {
+        V::validate([], V::arr()->notEmpty(), function ($err, $output) {
             $this->assertEquals('value is an empty array', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
     public function testArrayLength()
     {
-        V::validate([1, 2, 3], V::arr()->length(3), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->length(3), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([1, 2, 3], $validated);
+            $this->assertEquals([1, 2, 3], $output);
         });
 
-        V::validate([1, 2, 3], V::arr()->length(4), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->length(4), function ($err, $output) {
             $this->assertEquals('array length is 3, while length of 4 was expected', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
     public function testArrayMin()
     {
-        V::validate([1, 2, 3], V::arr()->min(3), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->min(3), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([1, 2, 3], $validated);
+            $this->assertEquals([1, 2, 3], $output);
         });
 
-        V::validate([1, 2, 3, 4], V::arr()->min(3), function ($err, $validated) {
+        V::validate([1, 2, 3, 4], V::arr()->min(3), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([1, 2, 3, 4], $validated);
+            $this->assertEquals([1, 2, 3, 4], $output);
         });
 
-        V::validate([1, 2, 3], V::arr()->min(4), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->min(4), function ($err, $output) {
             $this->assertEquals('array needs to have at least 4 items', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
     public function testArrayMax()
     {
-        V::validate([1, 2, 3], V::arr()->max(3), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->max(3), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([1, 2, 3], $validated);
+            $this->assertEquals([1, 2, 3], $output);
         });
 
-        V::validate([1, 2, 3], V::arr()->max(4), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->max(4), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals([1, 2, 3], $validated);
+            $this->assertEquals([1, 2, 3], $output);
         });
 
-        V::validate([1, 2, 3], V::arr()->max(2), function ($err, $validated) {
+        V::validate([1, 2, 3], V::arr()->max(2), function ($err, $output) {
             $this->assertEquals('array needs to have at most 2 items', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 }

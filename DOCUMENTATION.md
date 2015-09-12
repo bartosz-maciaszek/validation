@@ -64,7 +64,7 @@ $input = [
     'email' => 'foobar@example.com'
 ];
 
-V::validate($input, $schema, function ($err, $validated) {
+V::validate($input, $schema, function ($err, $output) {
     // $err === null -> valid!
 });
 ```
@@ -84,20 +84,98 @@ The code snippet illustrates how to check an input array against a set of constr
 * `sex`
     * "male" or "female" string, any other values are disallowed
 
-Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains `ValidationException` object and `$validated` argument is `null`. Otherwise `$err` argument is `null` and `$validated` argument contains validated/filtered input value. 
+Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains
+`ValidationException` object and `$output` argument is `null`. Otherwise `$err` argument is `null` and
+`$output` argument contains validated/filtered input value. 
 
 # Usage
 
 ### `validate($value, $schema[, $callback])`
+
+This method validates the given `$value` against `$schema` and, if `$callback` attribute is specified, invokes
+the callback with attributes `$err` and `$output` as described above. If `$callback` is not specified, the method
+returns an array with two keys: `err` and `output`.
+
+Examples with callback:
+
+```php
+V::validate('string', V::string(), function ($err, $output) {
+    // $err is null
+    // $output is 'string'
+});
+```
+
+```php
+V::validate('string', V::number(), function ($err, $output) {
+    // $err contains the ValidationException object
+    // $output is null
+});
+```
+
+Examples without callback:
+
+```php
+$result = V::validate('string', V::string());
+
+// $result['err'] is null
+// $result['output'] is 'string'
+```
+
+```php
+$result = V::validate('string', V::number());
+
+// $result['err'] contains the ValidationException object
+// $result['output'] is null
+```
+
 ### `assert($value, $schema)`
+
+`assert` method validates given `$value` against `$schema` and throws `ValidationException` if validation fails.
+This method does not return any value.
+
+```php
+V::assert('string', V::string()); // No exception
+V::assert('string', V::number()); // ValidationException is thrown
+```
+
 ### `attempt($value, $schema)`
+
+``attempt`` method validates given `$value` against `$schema` and throws `ValidationException` if validation fails.
+Otherwise it returns validated/filtered value.
 
 ### `any`
 
+Does not check the input value for any specific type and gives access to the common assertions line `valid`
+or `invalid`.
+
+```php
+V::attempt('string', V::any()); // 'string'
+V::attempt(123, V::any()); // 123
+V::attempt(null, V::any()); // null
+
 #### `any::invalid($value)`
+
+This shared assertion checks if the input value is none of the passed values.
+
+```php
+V::attempt('a', V::any()->invalid('a')); // ValidationException!
+V::attempt('a', V::any()->invalid('a', 'b')); // ValidationException!
+V::attempt('a', V::any()->invalid(['a', 'b'])); // ValidationException!
+V::attempt('a', V::any()->invalid('c', 'd')); // Ok
+```
+
 #### `any::valid($value)`
 
-### `arr`
+This shared assertion checks if the input value is one of the passed values.
+
+```php
+V::attempt('a', V::any()->valid('a')); // Ok
+V::attempt('a', V::any()->valid('a', 'b')); // Ok
+V::attempt('a', V::any()->valid(['a', 'b'])); // Ok
+V::attempt('a', V::any()->valid('c', 'd')); // ValidationException!
+```
+
+### `arr` 
 
 #### `arr::keys($length)`
 #### `arr::length($length)`

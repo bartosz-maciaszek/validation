@@ -15,8 +15,8 @@ class Validation
     public static function validate($value, AbstractSchema $schema, \Closure $callback = null)
     {
         if ($callback === null) {
-            $callback = function ($err, $validated) {
-                return [ 'err' => $err, 'validated' => $validated ];
+            $callback = function ($err, $output) {
+                return [ 'err' => $err, 'output' => $output ];
             };
         }
 

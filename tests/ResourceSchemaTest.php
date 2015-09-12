@@ -10,26 +10,26 @@ class ResourceSchemaTest extends \PHPUnit_Framework_TestCase
     {
         $fileHandler = fopen(__FILE__, 'r');
 
-        V::validate($fileHandler, V::resource(), function ($err, $validated) use ($fileHandler) {
+        V::validate($fileHandler, V::resource(), function ($err, $output) use ($fileHandler) {
             $this->assertNull($err);
-            $this->assertEquals($fileHandler, $validated);
+            $this->assertEquals($fileHandler, $output);
         });
 
         fclose($fileHandler);
 
-        V::validate('123', V::resource(), function ($err, $validated) {
+        V::validate('123', V::resource(), function ($err, $output) {
             $this->assertEquals('value is not a resource', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
 
-        V::validate([], V::resource(), function ($err, $validated) {
+        V::validate([], V::resource(), function ($err, $output) {
             $this->assertEquals('value is not a resource', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
 
-        V::validate(new \stdClass(), V::resource(), function ($err, $validated) {
+        V::validate(new \stdClass(), V::resource(), function ($err, $output) {
             $this->assertEquals('value is not a resource', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 }

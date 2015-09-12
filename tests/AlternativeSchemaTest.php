@@ -8,19 +8,19 @@ class AlternativeSchemaTest extends \PHPUnit_Framework_TestCase
 {
     public function testAlternative()
     {
-        V::validate('foo', V::alternative()->any(V::string()->valid('foo'), V::boolean()), function ($err, $validated) {
+        V::validate('foo', V::alternative()->any(V::string()->valid('foo'), V::boolean()), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals('foo', $validated);
+            $this->assertEquals('foo', $output);
         });
 
-        V::validate(true, V::alternative()->any(V::string()->valid('foo'), V::boolean()), function ($err, $validated) {
+        V::validate(true, V::alternative()->any(V::string()->valid('foo'), V::boolean()), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertTrue(true, $validated);
+            $this->assertTrue(true, $output);
         });
 
-        V::validate(null, V::alternative()->any(V::string()->valid('foo'), V::boolean()), function ($err, $validated) {
+        V::validate(null, V::alternative()->any(V::string()->valid('foo'), V::boolean()), function ($err, $output) {
             $this->assertEquals('none of the alternatives matched', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 }

@@ -8,17 +8,17 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidateWithCallbackPositive()
     {
-        V::validate('string', V::string(), function ($err, $validated) {
+        V::validate('string', V::string(), function ($err, $output) {
             $this->assertNull($err);
-            $this->assertEquals('string', $validated);
+            $this->assertEquals('string', $output);
         });
     }
 
     public function testValidateWithCallbackNegative()
     {
-        V::validate('string', V::number(), function ($err, $validated) {
+        V::validate('string', V::number(), function ($err, $output) {
             $this->assertEquals('value is not a number', (string) $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
@@ -27,10 +27,10 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $result = V::validate('string', V::string());
 
         $this->assertArrayHasKey('err', $result);
-        $this->assertArrayHasKey('validated', $result);
+        $this->assertArrayHasKey('output', $result);
 
         $this->assertNull($result['err']);
-        $this->assertEquals('string', $result['validated']);
+        $this->assertEquals('string', $result['output']);
     }
 
     public function testValidateWithoutCallbackNegative()
@@ -38,10 +38,10 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $result = V::validate('string', V::number());
 
         $this->assertArrayHasKey('err', $result);
-        $this->assertArrayHasKey('validated', $result);
+        $this->assertArrayHasKey('output', $result);
 
         $this->assertEquals('value is not a number', (string) $result['err']);
-        $this->assertNull($result['validated']);
+        $this->assertNull($result['output']);
     }
 
     public function testAssertPositive()

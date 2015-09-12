@@ -10,24 +10,24 @@ class ObjectSchemaTest extends \PHPUnit_Framework_TestCase
     {
         $instance = new \stdClass();
 
-        V::validate($instance, V::object(), function ($err, $validated) use ($instance) {
+        V::validate($instance, V::object(), function ($err, $output) use ($instance) {
             $this->assertNull($err);
-            $this->assertEquals($instance, $validated);
+            $this->assertEquals($instance, $output);
         });
 
-        V::validate(123, V::object(), function ($err, $validated) {
+        V::validate(123, V::object(), function ($err, $output) {
             $this->assertEquals('value is not an object', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
 
-        V::validate([], V::object(), function ($err, $validated) {
+        V::validate([], V::object(), function ($err, $output) {
             $this->assertEquals('value is not an object', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
 
-        V::validate('foo', V::object(), function ($err, $validated) {
+        V::validate('foo', V::object(), function ($err, $output) {
             $this->assertEquals('value is not an object', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 
@@ -35,14 +35,14 @@ class ObjectSchemaTest extends \PHPUnit_Framework_TestCase
     {
         $instance = new \DateTime();
 
-        V::validate($instance, V::object()->instance('\DateTime'), function ($err, $validated) use ($instance) {
+        V::validate($instance, V::object()->instance('\DateTime'), function ($err, $output) use ($instance) {
             $this->assertNull($err);
-            $this->assertEquals($instance, $validated);
+            $this->assertEquals($instance, $output);
         });
 
-        V::validate(new \stdClass(), V::object()->instance('\DateTime'), function ($err, $validated) {
+        V::validate(new \stdClass(), V::object()->instance('\DateTime'), function ($err, $output) {
             $this->assertEquals('object is not an instance of \DateTime', $err);
-            $this->assertNull($validated);
+            $this->assertNull($output);
         });
     }
 }
