@@ -430,4 +430,16 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($validated);
         });
     }
+
+    public function testStringTrimInvalidOption()
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'key "convert" is invalid, because [ value is not a boolean ]'
+        );
+
+        V::validate('foo', V::string()->trim('foo'), function ($err, $validated) {
+
+        });
+    }
 }
