@@ -153,6 +153,7 @@ or `invalid`.
 V::attempt('string', V::any()); // 'string'
 V::attempt(123, V::any()); // 123
 V::attempt(null, V::any()); // null
+```
 
 #### `any::invalid($value)`
 
