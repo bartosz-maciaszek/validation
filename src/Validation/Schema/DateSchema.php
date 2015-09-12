@@ -10,4 +10,11 @@ class DateSchema extends AbstractSchema
     {
         $this->assert(new Assertions\IsDate());
     }
+
+    public function dateTimeObject($convert = true)
+    {
+        $this->assert(new Assertions\DateTimeObject(['convert' => $convert]));
+
+        return $this;
+    }
 }

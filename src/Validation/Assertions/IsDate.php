@@ -13,8 +13,14 @@ class IsDate extends AbstractAssertion
      */
     public function process(InputValue $input)
     {
-        if (!$input->getValue() instanceof \DateTime && false === strtotime($input->getValue())) {
-            throw new ValidationException('value is not a date');
+        if ($input->getValue() instanceof \DateTime) {
+            return;
         }
+
+        if (is_string($input->getValue()) && false !== strtotime($input->getValue())) {
+            return;
+        }
+
+        throw new ValidationException('value is not a date');
     }
 }
