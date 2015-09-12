@@ -5,27 +5,27 @@
     - [`validate($value, $schema[, $callback])`](#validatevalue-schema-callback)
     - [`assert($value, $schema)`](#assertvalue-schema)
     - [`attempt($value, $schema)`](#attemptvalue-schema)
-    - [`any`](#any)
+    - [`any()`](#any)
         - [`any::invalid($value)`](#anyinvalidvalue)
         - [`any::valid($value)`](#anyvalidvalue)
-    - [`arr`](#array)
-        - [`arr::keys([$keys])`](#arraykeyskeys)
-        - [`arr::length($length)`](#arraylengthlength)
-        - [`arr::max($length)`](#arraymaxlength)
-        - [`arr::min($length)`](#arrayminlength)
-        - [`arr::notEmpty()`](#arraynotempty)
-    - [`boolean`](#array)
+    - [`arr()`](#arr)
+        - [`arr::keys([$keys])`](#arrkeyskeys)
+        - [`arr::length($length)`](#arrlengthlength)
+        - [`arr::max($length)`](#arrmaxlength)
+        - [`arr::min($length)`](#arrminlength)
+        - [`arr::notEmpty()`](#arrnotempty)
+    - [`boolean()`](#array)
         - [`boolean::false()`](#booleanfalse)
         - [`boolean::true()`](#booleantrue)
-    - [`date`](#date)
+    - [`date()`](#date)
         - [`date::dateTimeObject($convert)`](#datedatetimeobjectconvert)
-    - [`number`](#number)
+    - [`number()`](#number)
         - [`number::integer()`](#numberinteger)
         - [`number::float()`](#numberfloat)
-    - [`object`](#object)
+    - [`object()`](#object)
         - [`object::instance($className)`](#objectinstanceclassname)
-    - [`resource`](#resource)
-    - [`string`](#string)
+    - [`resource()`](#resource)
+    - [`string()`](#string)
         - [`string::alphanum()`](#stringalphanum)
         - [`string::email()`](#stringemail)
         - [`string::ip($options)`](#stringipoptions)
@@ -40,7 +40,8 @@
         - [`string::trim($convert)`](#stringurloptions)
         - [`string::uppercase($convert)`](#stringuppercaseconvert)
         - [`string::url($options)`](#stringurloptions)
-    - [`alternative`](#alternative)
+    - [`alternative()`](#alternative)
+        - [`string::any($schemas)`](#alternativeanyschemas)
 
 # Example
 
@@ -92,7 +93,7 @@ Once validation process has completed, the callback is invoked. If there was a f
 
 ### `validate($value, $schema[, $callback])`
 
-This method validates the given `$value` against `$schema` and, if `$callback` attribute is specified, invokes
+Validates the given `$value` against `$schema` and, if `$callback` attribute is specified, invokes
 the callback with attributes `$err` and `$output` as described above. If `$callback` is not specified, the method
 returns an array with two keys: `err` and `output`.
 
@@ -130,7 +131,7 @@ $result = V::validate('string', V::number());
 
 ### `assert($value, $schema)`
 
-`assert` method validates given `$value` against `$schema` and throws `ValidationException` if validation fails.
+Validates given `$value` against `$schema` and throws `ValidationException` if validation fails.
 This method does not return any value.
 
 ```php
@@ -140,12 +141,12 @@ V::assert('string', V::number()); // ValidationException is thrown
 
 ### `attempt($value, $schema)`
 
-``attempt`` method validates given `$value` against `$schema` and throws `ValidationException` if validation fails.
+Validates given `$value` against `$schema` and throws `ValidationException` if validation fails.
 Otherwise it returns validated/filtered value.
 
-### `any`
+### `any()`
 
-Does not check the input value for any specific type and gives access to the common assertions line `valid`
+Does not check the input value for any specific type and gives access to the shared assertions like `valid`
 or `invalid`.
 
 ```php
@@ -161,7 +162,7 @@ This shared assertion checks if the input value is none of the passed values.
 V::attempt('a', V::any()->invalid('a')); // ValidationException!
 V::attempt('a', V::any()->invalid('a', 'b')); // ValidationException!
 V::attempt('a', V::any()->invalid(['a', 'b'])); // ValidationException!
-V::attempt('a', V::any()->invalid('c', 'd')); // Ok
+V::attempt('a', V::any()->invalid('c', 'd')); // 'a'
 ```
 
 #### `any::valid($value)`
@@ -169,13 +170,20 @@ V::attempt('a', V::any()->invalid('c', 'd')); // Ok
 This shared assertion checks if the input value is one of the passed values.
 
 ```php
-V::attempt('a', V::any()->valid('a')); // Ok
-V::attempt('a', V::any()->valid('a', 'b')); // Ok
-V::attempt('a', V::any()->valid(['a', 'b'])); // Ok
+V::attempt('a', V::any()->valid('a')); // 'a'
+V::attempt('a', V::any()->valid('a', 'b')); // 'a'
+V::attempt('a', V::any()->valid(['a', 'b'])); // 'a'
 V::attempt('a', V::any()->valid('c', 'd')); // ValidationException!
 ```
 
-### `arr` 
+### `arr()`
+
+Checks if the input value is an array. Gives access to any array-specific assertions and filters.
+
+```php
+V::attempt([], V::arr()); // []
+V::attempt(123, V::arr()); // ValidationException!
+```
 
 #### `arr::keys($length)`
 #### `arr::length($length)`
@@ -183,27 +191,39 @@ V::attempt('a', V::any()->valid('c', 'd')); // ValidationException!
 #### `arr::min($length)`
 #### `arr::notEmpty($length)`
 
-### `boolean`
+### `boolean()`
+
+Checks if the input value is a boolean. Gives access to any boolean-specific assertions and filters.
 
 #### `boolean::false()`
 #### `boolean::true()`
 
-### `date`
+### `date()`
+
+Checks if the input value is a valid date string or `DateTime` object. Gives access to any date-specific assertions and filters.
 
 #### `date::dateTimeObject()`
 
-### `number`
+### `number()`
+
+Checks if the input value is a number. Gives access to any number-specific assertions and filters.
 
 #### `number::integer()`
 #### `number::float()`
 
-### `object`
+### `object()`
+
+Checks if the input value is an object. Gives access to any object-specific assertions and filters.
 
 #### `object::instance($className)`
 
-### `resource`
+### `resource()`
 
-### `string`
+Checks if the input value is a resource. Gives access to any resource-specific assertions and filters.
+
+### `string()`
+
+Checks if the input value is a string. Gives access to any string-specific assertions and filters.
 
 #### `string::alphanum()`
 #### `string::email()`
@@ -220,4 +240,8 @@ V::attempt('a', V::any()->valid('c', 'd')); // ValidationException!
 #### `string::trim($convert)`
 #### `string::url($options)`
 
-### `alternative`
+### `alternative()`
+
+Enables alternative schema. Details below.
+
+#### `alternative::any($schemas)`
