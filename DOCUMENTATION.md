@@ -64,6 +64,7 @@ $input = [
 V::validate($input, $schema, function ($err, $validated) {
     // $err === null -> valid!
 });
+```
 
 The code snippet illustrates how to check an input array against a set of constraints:
 * `username`
@@ -79,7 +80,6 @@ The code snippet illustrates how to check an input array against a set of constr
     * a valid email address string
 * `sex`
     * "male" or "female" string, any other values are disallowed
-```
 
 Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains `ValidationError` object and `$validated` argument is `null`. Otherwise `$err` argument is `null` and `$validated` argument contains validated/filtered input value. 
 
