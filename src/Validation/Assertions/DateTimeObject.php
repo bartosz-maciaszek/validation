@@ -20,7 +20,7 @@ class DateTimeObject extends AbstractAssertion
         }
 
         if (!$input->getValue() instanceof \DateTime) {
-            $input->replace(function($value) {
+            $input->replace(function ($value) {
                 return new \DateTime($value);
             });
         }

@@ -19,7 +19,7 @@ class DateSchemaTest extends \PHPUnit_Framework_TestCase
         });
 
         $dateTime = new \DateTime();
-        V::validate($dateTime, V::date(), function($err, $validated) use ($dateTime) {
+        V::validate($dateTime, V::date(), function ($err, $validated) use ($dateTime) {
             $this->assertNull($err);
             $this->assertEquals($dateTime, $validated);
         });
@@ -42,7 +42,7 @@ class DateSchemaTest extends \PHPUnit_Framework_TestCase
 
     public function testDateConvertToObject()
     {
-        V::validate('2015-01-01', V::date()->dateTimeObject(), function($err, $validated) {
+        V::validate('2015-01-01', V::date()->dateTimeObject(), function ($err, $validated) {
             $this->assertNull($err);
             $this->assertInstanceOf('\DateTime', $validated);
 
@@ -52,7 +52,7 @@ class DateSchemaTest extends \PHPUnit_Framework_TestCase
 
         $dateTime = new \DateTime();
 
-        V::validate($dateTime, V::date()->dateTimeObject(), function($err, $validated) use ($dateTime) {
+        V::validate($dateTime, V::date()->dateTimeObject(), function ($err, $validated) use ($dateTime) {
             $this->assertNull($err);
             $this->assertInstanceOf('\DateTime', $validated);
 
@@ -65,7 +65,7 @@ class DateSchemaTest extends \PHPUnit_Framework_TestCase
     {
         $dateTime = new \DateTime();
 
-        V::validate($dateTime, V::date()->dateTimeObject(false), function($err, $validated) use ($dateTime) {
+        V::validate($dateTime, V::date()->dateTimeObject(false), function ($err, $validated) use ($dateTime) {
             $this->assertNull($err);
             $this->assertInstanceOf('\DateTime', $validated);
 
@@ -73,7 +73,7 @@ class DateSchemaTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($dateTime->format('Y-m-d'), $validated->format('Y-m-d'));
         });
 
-        V::validate('2015-01-01', V::date()->dateTimeObject(false), function($err, $validated) {
+        V::validate('2015-01-01', V::date()->dateTimeObject(false), function ($err, $validated) {
             $this->assertEquals('value is not a DateTime object', $err);
             $this->assertNull($validated);
         });

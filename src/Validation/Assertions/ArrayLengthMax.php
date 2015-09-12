@@ -17,7 +17,7 @@ class ArrayLengthMax extends AbstractAssertion
         $actual = count($input->getValue());
 
         if ($actual > $expected) {
-            $message = sprintf('array needs to be at most %d items long', $expected);
+            $message = sprintf('array needs to have at most %d items', $expected);
             throw new ValidationException($message);
         }
     }

@@ -105,4 +105,53 @@ class ArraySchemaTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($validated);
         });
     }
+
+    public function testArrayLength()
+    {
+        V::validate([1, 2, 3], V::arr()->length(3), function ($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([1, 2, 3], $validated);
+        });
+
+        V::validate([1, 2, 3], V::arr()->length(4), function ($err, $validated) {
+            $this->assertEquals('array length is 3, while length of 4 was expected', $err);
+            $this->assertNull($validated);
+        });
+    }
+
+    public function testArrayMin()
+    {
+        V::validate([1, 2, 3], V::arr()->min(3), function ($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([1, 2, 3], $validated);
+        });
+
+        V::validate([1, 2, 3, 4], V::arr()->min(3), function ($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([1, 2, 3, 4], $validated);
+        });
+
+        V::validate([1, 2, 3], V::arr()->min(4), function ($err, $validated) {
+            $this->assertEquals('array needs to have at least 4 items', $err);
+            $this->assertNull($validated);
+        });
+    }
+
+    public function testArrayMax()
+    {
+        V::validate([1, 2, 3], V::arr()->max(3), function ($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([1, 2, 3], $validated);
+        });
+
+        V::validate([1, 2, 3], V::arr()->max(4), function ($err, $validated) {
+            $this->assertNull($err);
+            $this->assertEquals([1, 2, 3], $validated);
+        });
+
+        V::validate([1, 2, 3], V::arr()->max(2), function ($err, $validated) {
+            $this->assertEquals('array needs to have at most 2 items', $err);
+            $this->assertNull($validated);
+        });
+    }
 }

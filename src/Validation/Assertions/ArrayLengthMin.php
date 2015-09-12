@@ -17,7 +17,7 @@ class ArrayLengthMin extends AbstractAssertion
         $actual = count($input->getValue());
 
         if ($actual < $expected) {
-            $message = sprintf('array needs to be at least %d items long', $expected);
+            $message = sprintf('array needs to have at least %d items', $expected);
             throw new ValidationException($message);
         }
     }
