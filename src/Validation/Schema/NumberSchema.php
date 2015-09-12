@@ -11,6 +11,9 @@ class NumberSchema extends AbstractSchema
         $this->assert(new Assertions\IsNumber());
     }
 
+    /**
+     * @return $this
+     */
     public function integer()
     {
         $this->assert(new Assertions\IsInteger());
@@ -18,6 +21,9 @@ class NumberSchema extends AbstractSchema
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function float()
     {
         $this->assert(new Assertions\IsFloat());

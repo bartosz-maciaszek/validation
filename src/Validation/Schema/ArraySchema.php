@@ -13,12 +13,12 @@ class ArraySchema extends AbstractSchema
     }
 
     /**
-     * @param $length
+     * @param array $keys
      * @return $this
      */
-    public function length($length)
+    public function keys(array $keys)
     {
-        $this->assert(new Assertions\ArrayLength(['length' => $length]));
+        $this->assert(new Assertions\ArrayKeys(['keys' => $keys]));
 
         return $this;
     }
@@ -27,9 +27,9 @@ class ArraySchema extends AbstractSchema
      * @param $length
      * @return $this
      */
-    public function min($length)
+    public function length($length)
     {
-        $this->assert(new Assertions\ArrayLengthMin(['length' => $length]));
+        $this->assert(new Assertions\ArrayLength(['length' => $length]));
 
         return $this;
     }
@@ -46,12 +46,12 @@ class ArraySchema extends AbstractSchema
     }
 
     /**
-     * @param array $keys
+     * @param $length
      * @return $this
      */
-    public function keys(array $keys)
+    public function min($length)
     {
-        $this->assert(new Assertions\ArrayKeys(['keys' => $keys]));
+        $this->assert(new Assertions\ArrayLengthMin(['length' => $length]));
 
         return $this;
     }
