@@ -41,6 +41,50 @@
 
 # Example
 
+```php
+<?php
+
+use Validation\Validation as V;
+
+$schema = V::arr()->keys([
+    'username' => V::string()->alphanum()->min(3)->max(30),
+    'password' => V::string()->regex('/[a-z-A-Z0-9]{3,30}/'),
+    'birthyear' => V::number()->integer()->min(1900)->max(2013),
+    'email' => V::string()->email(),
+    'sex' => V::string()->valid('male', 'female')
+]);
+
+$input = [
+    'username' => 'foobar',
+    'password' => 'dupa.8',
+    'birthyear' => 1980,
+    'email' => 'foobar@example.com'
+];
+
+V::validate($input, $schema, function ($err, $validated) {
+    // $err === null -> valid!
+});
+
+The code snippet illustrates how to check an input array against a set of constraints:
+* `username`
+    * must be a string
+    * must contain only alphanumeric characters
+    * the length must be between 3 and 30 alphanumeric characters
+* `password`
+    * must be a string
+    * must satisfy the custom regex
+* `birthyear`
+    * an integer between 1900 and 2013
+* `email`
+    * a valid email address string
+* `sex`
+    * "male" or "female" string, any other values are disallowed
+```
+
+Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains `ValidationError` object and `$validated` argument is `null`. Otherwise `$err` argument is `null` and `$validated` argument contains validated/filtered input value. 
+
+# Usage
+
 ### `any`
 
 #### `any::invalid($value)`
@@ -92,5 +136,3 @@
 #### `string::url($options)`
 
 ### `alternative`
-
-# Usage
