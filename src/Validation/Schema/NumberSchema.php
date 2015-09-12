@@ -10,4 +10,18 @@ class NumberSchema extends AbstractSchema
     {
         $this->assert(new Assertions\IsNumber());
     }
+
+    public function integer()
+    {
+        $this->assert(new Assertions\IsInteger());
+
+        return $this;
+    }
+
+    public function float()
+    {
+        $this->assert(new Assertions\IsFloat());
+
+        return $this;
+    }
 }
