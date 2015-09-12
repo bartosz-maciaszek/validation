@@ -30,7 +30,6 @@ class AlternativeSchema extends AbstractSchema
             }
         }
 
-
         throw new ValidationException('none of the alternatives matched');
     }
 }
