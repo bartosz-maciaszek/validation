@@ -10,8 +10,10 @@ php:
 before_install:
   - composer self-update
 
+install:
+  - travis_retry make deps
+
 script:
-  - make deps
   - make cs
   - make test
 
