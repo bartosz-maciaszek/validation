@@ -41,12 +41,4 @@ abstract class AbstractSchema
     {
         $this->assertions[] = $assertion;
     }
-
-    /**
-     * @param Assertions\AbstractAssertion[] $assertions
-     */
-    protected function assertAll(array $assertions)
-    {
-        $this->assertions = array_merge($this->assertions, $assertions);
-    }
 }
