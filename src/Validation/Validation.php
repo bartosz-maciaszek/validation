@@ -77,11 +77,10 @@ class Validation
     }
 
     /**
-     * @param ...$arguments
      * @return Schema\AlternativeSchema
      */
-    public static function alternative(...$arguments)
+    public static function alternative()
     {
-        return new Schema\AlternativeSchema(Utils::variadicToArray($arguments));
+        return new Schema\AlternativeSchema(Utils::variadicToArray(func_get_args()));
     }
 }

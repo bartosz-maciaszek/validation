@@ -37,8 +37,8 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
      */
     protected function provideVariadicFunction()
     {
-        return function (...$arguments) {
-            return Utils::variadicToArray($arguments);
+        return function () {
+            return Utils::variadicToArray(func_get_args());
         };
     }
 }

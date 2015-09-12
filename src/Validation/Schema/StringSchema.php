@@ -35,23 +35,21 @@ class StringSchema extends AbstractSchema
     }
 
     /**
-     * @param ...$arguments
      * @return $this
      */
-    public function valid(...$arguments)
+    public function valid()
     {
-        $this->assert(new Assertions\InArray(['allowed' => Utils::variadicToArray($arguments)]));
+        $this->assert(new Assertions\InArray(['allowed' => Utils::variadicToArray(func_get_args())]));
 
         return $this;
     }
 
     /**
-     * @param ...$arguments
      * @return $this
      */
-    public function invalid(...$arguments)
+    public function invalid()
     {
-        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::variadicToArray($arguments)]));
+        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::variadicToArray(func_get_args())]));
 
         return $this;
     }
