@@ -6,7 +6,7 @@
     - [`assert($value, $schema)`](#assertvalue-schema)
     - [`attempt($value, $schema)`](#attemptvalue-schema)
     - [`any()`](#any)
-        - [`any::defaultValue($value)`](#anydefaultvaluevlue)
+        - [`any::defaultValue($value)`](#anydefaultvaluevalue)
         - [`any::invalid($value)`](#anyinvalidvalue)
         - [`any::required()`](#anyrequired)
         - [`any::strip()`](#anystrip)
