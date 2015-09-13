@@ -73,7 +73,7 @@ Wanna something more complex? Let's try to validate an array!
         var_dump($validated);
     });
 
-Full documentation is on the way.
+Documentation can be found [here](DOCUMENTATION.md) (please note it's not 100% completed :)).
 
 Tests
 -----
