@@ -243,17 +243,38 @@ V::attempt(123, V::arr()); // ValidationException!
 ```
 
 #### `arr::keys($length)`
+
+*To be documented.*
+
 #### `arr::length($length)`
+
+*To be documented.*
+
 #### `arr::max($length)`
+
+*To be documented.*
+
 #### `arr::min($length)`
+
+*To be documented.*
+
 #### `arr::notEmpty($length)`
+
+*To be documented.*
+
 
 ### `boolean()`
 
 Checks if the input value is a boolean. Gives access to any boolean-specific assertions and filters.
 
 #### `boolean::false()`
+
+*To be documented.*
+
 #### `boolean::true()`
+
+*To be documented.*
+
 
 ### `date()`
 
@@ -261,18 +282,30 @@ Checks if the input value is a valid date string or `DateTime` object. Gives acc
 
 #### `date::dateTimeObject()`
 
+*To be documented.*
+
+
 ### `number()`
 
 Checks if the input value is a number. Gives access to any number-specific assertions and filters.
 
 #### `number::integer()`
+
+*To be documented.*
+
 #### `number::float()`
+
+*To be documented.*
+
 
 ### `object()`
 
 Checks if the input value is an object. Gives access to any object-specific assertions and filters.
 
 #### `object::instance($className)`
+
+*To be documented.*
+
 
 ### `resource()`
 
@@ -283,22 +316,66 @@ Checks if the input value is a resource. Gives access to any resource-specific a
 Checks if the input value is a string. Gives access to any string-specific assertions and filters.
 
 #### `string::alphanum()`
+
+*To be documented.*
+
 #### `string::email()`
+
+*To be documented.*
+
 #### `string::ip($options)`
+
+*To be documented.*
+
 #### `string::length($length)`
+
+*To be documented.*
+
 #### `string::lowercase($convert)`
+
+*To be documented.*
+
 #### `string::max($length)`
+
+*To be documented.*
+
 #### `string::min($length)`
+
+*To be documented.*
+
 #### `string::regex($pattern)`
+
+*To be documented.*
+
 #### `string::regexReplace($pattern, $replace)`
+
+*To be documented.*
+
 #### `string::replace($search, $replace)`
+
+*To be documented.*
+
 #### `string::token()`
+
+*To be documented.*
+
 #### `string::uppercase($convert)`
+
+*To be documented.*
+
 #### `string::trim($convert)`
+
+*To be documented.*
+
 #### `string::url($options)`
+
+*To be documented.*
+
 
 ### `alternative()`
 
 Enables alternative schema. Details below.
 
 #### `alternative::any($schemas)`
+
+*To be documented.*
