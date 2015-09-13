@@ -6,7 +6,10 @@
     - [`assert($value, $schema)`](#assertvalue-schema)
     - [`attempt($value, $schema)`](#attemptvalue-schema)
     - [`any()`](#any)
+        - [`any::defaultValue($value)`](#anydefaultvaluevlue)
         - [`any::invalid($value)`](#anyinvalidvalue)
+        - [`any::required()`](#anyrequired)
+        - [`any::strip()`](#anystrip)
         - [`any::valid($value)`](#anyvalidvalue)
     - [`arr()`](#arr)
         - [`arr::keys([$keys])`](#arrkeyskeys)
@@ -155,6 +158,34 @@ V::attempt(123, V::any()); // 123
 V::attempt(null, V::any()); // null
 ```
 
+#### `any::defaultValue($value)`
+
+Sets a default value if the relevant array key is missing. `$value` attribute might be a callback.
+
+Example:
+
+```php
+$input = [ 'firstname' => 'Smok', 'lastname' => 'Wawelski' ];
+
+$schema = V::arr()->keys([
+    'firstname' => V::string(),
+    'lastname' => V::string(),
+    'username' => V::string()->default(function ($context) {
+        return $context['firstname'] . '-' . $context['lastname'];
+    }),
+    'created' => V::date()->default(new \DateTime),
+    'status' => V::string()->default('registered')
+]);
+
+$user = V::attempt($input, $schema);
+
+// $user['firstname'] - 'Smok'
+// $user['lastname'] - 'Wawelski'
+// $user['username'] - 'smok-wawelski'
+// $user['created'] - instance of \DateTime
+// $user['status'] - registered
+```
+
 #### `any::invalid($value)`
 
 This shared assertion checks if the input value is none of the passed values.
@@ -164,6 +195,31 @@ V::attempt('a', V::any()->invalid('a')); // ValidationException!
 V::attempt('a', V::any()->invalid('a', 'b')); // ValidationException!
 V::attempt('a', V::any()->invalid(['a', 'b'])); // ValidationException!
 V::attempt('a', V::any()->invalid('c', 'd')); // 'a'
+```
+
+#### `any::required()`
+
+Checks if value is not `null` or an empty string.
+
+```php
+V::attempt(null, V::any->required()); // ValidationException!
+V::attempt('', V::any->required()); // ValidationException!
+V::attempt('foo', V::any->required()); // 'foo'
+```
+
+#### `any::strip()`
+
+Removes the given array ket from the `$output` value.
+
+```php
+$input = [ 'foo' => 'bar', 'baz' => 'quux' ];
+
+$schema = V::arr()->keys([
+    'foo' => V::string(),
+    'baz' => V::string()->strip()
+]);
+
+V::attempt($input, $schema); // -> [ 'foo' => 'bar' ]
 ```
 
 #### `any::valid($value)`

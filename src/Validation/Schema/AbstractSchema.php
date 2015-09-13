@@ -14,6 +14,14 @@ abstract class AbstractSchema
     private $assertions = [];
 
     /**
+     * @var array
+     */
+    private $options = [
+        'strip' => false,
+        'default' => null
+    ];
+
+    /**
      * @param InputValue $input
      * @return mixed
      */
@@ -40,5 +48,23 @@ abstract class AbstractSchema
     protected function assert(Assertions\AbstractAssertion $assertion)
     {
         $this->assertions[] = $assertion;
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    protected function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function getOption($name)
+    {
+        return $this->options[$name];
     }
 }
