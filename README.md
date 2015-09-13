@@ -22,56 +22,64 @@ Examples
 
 Validation with the library is straightforward. You can validate primitives like this:
 
-    <?php
+```php
+<?php
+
+use Validation\Validation as V;
+
+V::validate('foobar', V::string(), function($err, $output) {
+    if ($err) {
+        echo 'Validation failed: ' . $err;
+        exit;
+    }
     
-    use Validation\Validation as V;
-    
-    V::validate('foobar', V::string(), function($err, $output) {
-        if ($err) {
-            echo 'Validation failed: ' . $err;
-            exit;
-        }
-        
-        echo $output; // 'foobar'
-    });
+    echo $output; // 'foobar'
+});
+```
 
 You can also chain other assertions:
 
-    V::validate('user@example.com', V::string()->email(), function($err, $output) {
-        // ...
-    });
+```php
+V::validate('user@example.com', V::string()->email(), function($err, $output) {
+    // ...
+});
+```
 
 Library also supports conversions:
 
-    V::validate('FooBar', V::string()->lowercase(), function($err, $output) {
-        // $output equals 'foobar'!
-    });
+```php
+V::validate('FooBar', V::string()->lowercase(), function($err, $output) {
+    // $output equals 'foobar'!
+});
+```
 
 Wanna something more complex? Let's try to validate an array!
 
-    $input = [
-        'foo' => 'bar',
-        'baz' => [
-            'quux' => 'foo',
-            'baz' => 'test-123456',
-            'bar' => 123,
-            'foo' => 'test123test'
-        ]
-    ];
-    
-    $schema = V::arr()->keys([
-        'foo' => V::string()->length(3),
-        'baz' => V::arr()->keys([
-            'quux' => V::string()->valid('foo', 'bar', 'baz')->uppercase(),
-            'baz' => V::string()->regex('/^test\-[0-9]+$/'),
-            'bar' => V::number()->min(100)->max(200),
-            'foo' => V::string()->replace('test', 123)
-        ])
-    ]);
-    
-    V::validate($input, $schema, function($err, $output) {
-        var_dump($output);
-    });
+```php
+$input = [
+    'foo' => 'bar',
+    'baz' => [
+        'quux' => 'foo',
+        'baz' => 'test-123456',
+        'bar' => 123,
+        'foo' => 'test123test'
+    ]
+];
+
+$schema = V::arr()->keys([
+    'foo' => V::string()->length(3),
+    'baz' => V::arr()->keys([
+        'quux' => V::string()->valid('foo', 'bar', 'baz')->uppercase(),
+        'baz' => V::string()->regex('/^test\-[0-9]+$/'),
+        'bar' => V::number()->min(100)->max(200),
+        'foo' => V::string()->replace('test', 123)
+    ])
+]);
+
+V::validate($input, $schema, function($err, $output) {
+    var_dump($output);
+});
+```
 
 Documentation can be found [here](DOCUMENTATION.md) (please note it's not 100% completed :)).
 
