@@ -89,3 +89,4 @@ Contributing
 Contributions are welcome. If you want to help, please fork the repo and submit a pull request. To maintain the coding style, please make sure your code complies with PSR2 standard.
 
     $ make cs
+    
