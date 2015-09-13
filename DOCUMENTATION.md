@@ -171,7 +171,7 @@ $schema = V::arr()->keys([
     'firstname' => V::string(),
     'lastname' => V::string(),
     'username' => V::string()->default(function ($context) {
-        return $context['firstname'] . '-' . $context['lastname'];
+        return strtolower($context['firstname'] . '-' . $context['lastname']);
     }),
     'created' => V::date()->default(new \DateTime),
     'status' => V::string()->default('registered')
