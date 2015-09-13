@@ -26,25 +26,25 @@ Validation with the library is straightforward. You can validate primitives like
     
     use Validation\Validation as V;
     
-    V::validate('foobar', V::string(), function($err, $validated) {
+    V::validate('foobar', V::string(), function($err, $output) {
         if ($err) {
             echo 'Validation failed: ' . $err;
             exit;
         }
         
-        echo $validated; // 'foobar'
+        echo $output; // 'foobar'
     });
 
 You can also chain other assertions:
 
-    V::validate('user@example.com', V::string()->email(), function($err, $validated) {
+    V::validate('user@example.com', V::string()->email(), function($err, $output) {
         // ...
     });
 
 Library also supports conversions:
 
-    V::validate('FooBar', V::string()->lowercase(), function($err, $validated) {
-        // $validated equals 'foobar'!
+    V::validate('FooBar', V::string()->lowercase(), function($err, $output) {
+        // $output equals 'foobar'!
     });
 
 Wanna something more complex? Let's try to validate an array!
@@ -69,8 +69,8 @@ Wanna something more complex? Let's try to validate an array!
         ])
     ]);
     
-    V::validate($input, $schema, function($err, $validated) {
-        var_dump($validated);
+    V::validate($input, $schema, function($err, $output) {
+        var_dump($output);
     });
 
 Documentation can be found [here](DOCUMENTATION.md) (please note it's not 100% completed :)).
@@ -89,4 +89,3 @@ Contributing
 Contributions are welcome. If you want to help, please fork the repo and submit a pull request. To maintain the coding style, please make sure your code complies with PSR2 standard.
 
     $ make cs
-    
