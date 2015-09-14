@@ -15,7 +15,9 @@ deps:
 	composer install
 
 coverage:
-	./vendor/bin/phpunit --coverage-html=coverage
+	./vendor/bin/phpunit --coverage-html=build/logs/coverage
 
 clean:
 	rm -rf coverage
+
+.PHONY: cs lint test coveralls deps coverage clean

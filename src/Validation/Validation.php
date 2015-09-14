@@ -111,6 +111,14 @@ class Validation
     }
 
     /**
+     * @return Schema\ClosureSchema
+     */
+    public static function closure()
+    {
+        return new Schema\ClosureSchema();
+    }
+
+    /**
      * @return Schema\AlternativeSchema
      */
     public static function alternative()

@@ -8,6 +8,17 @@ use Validation\Utils;
 class AnySchema extends AbstractSchema
 {
     /**
+     * @param callable $callback
+     * @return $this
+     */
+    public function custom(callable $callback)
+    {
+        $this->assert(new Assertions\CustomCallback(['callback' => $callback]));
+
+        return $this;
+    }
+
+    /**
      * @param $value
      * @return $this
      */
