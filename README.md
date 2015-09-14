@@ -45,7 +45,7 @@ V::validate('user@example.com', V::string()->email(), function($err, $output) {
 });
 ```
 
-Library also supports conversions:
+The library also supports transformations:
 
 ```php
 V::validate('FooBar', V::string()->lowercase(), function($err, $output) {
@@ -57,27 +57,23 @@ Wanna something more complex? Let's try to validate an array!
 
 ```php
 $input = [
-    'foo' => 'bar',
-    'baz' => [
-        'quux' => 'foo',
-        'baz' => 'test-123456',
-        'bar' => 123,
-        'foo' => 'test123test'
-    ]
+    'username' => 'foobar',
+    'password' => 'secret123',
+    'birthyear' => 1980,
+    'email' => 'foobar@example.com',
+    'sex' => 'male'
 ];
 
 $schema = V::arr()->keys([
-    'foo' => V::string()->length(3),
-    'baz' => V::arr()->keys([
-        'quux' => V::string()->valid('foo', 'bar', 'baz')->uppercase(),
-        'baz' => V::string()->regex('/^test\-[0-9]+$/'),
-        'bar' => V::number()->min(100)->max(200),
-        'foo' => V::string()->replace('test', 123)
-    ])
+    'username' => V::string()->alphanum()->min(3)->max(30),
+    'password' => V::string()->regex('/[a-z-A-Z0-9]{3,30}/'),
+    'birthyear' => V::number()->integer()->min(1900)->max(2013),
+    'email' => V::string()->email(),
+    'sex' => V::string()->valid('male', 'female')
 ]);
 
-V::validate($input, $schema, function($err, $output) {
-    var_dump($output);
+V::validate($input, $schema, function ($err, $output) {
+    // $err === null -> valid!
 });
 ```
 

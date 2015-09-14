@@ -55,6 +55,14 @@
 
 use Validation\Validation as V;
 
+$input = [
+    'username' => 'foobar',
+    'password' => 'secret123',
+    'birthyear' => 1980,
+    'email' => 'foobar@example.com',
+    'sex' => 'male'
+];
+
 $schema = V::arr()->keys([
     'username' => V::string()->alphanum()->min(3)->max(30),
     'password' => V::string()->regex('/[a-z-A-Z0-9]{3,30}/'),
@@ -62,13 +70,6 @@ $schema = V::arr()->keys([
     'email' => V::string()->email(),
     'sex' => V::string()->valid('male', 'female')
 ]);
-
-$input = [
-    'username' => 'foobar',
-    'password' => 'dupa.8',
-    'birthyear' => 1980,
-    'email' => 'foobar@example.com'
-];
 
 V::validate($input, $schema, function ($err, $output) {
     // $err === null -> valid!

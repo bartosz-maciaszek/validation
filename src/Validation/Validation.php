@@ -21,7 +21,7 @@ class Validation
         }
 
         try {
-            return $callback(null, $schema->process(new InputValue($value)));
+            return $callback(null, self::attempt($value, $schema));
         } catch (ValidationException $e) {
             return $callback($e, null);
         }
@@ -33,7 +33,7 @@ class Validation
      */
     public static function assert($value, AbstractSchema $schema)
     {
-        $schema->process(new InputValue($value));
+        self::attempt($value, $schema);
     }
 
     /**
