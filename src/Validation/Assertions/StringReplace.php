@@ -24,8 +24,8 @@ class StringReplace extends AbstractAssertion
     public function getOptionsSchema()
     {
         return V::arr()->keys([
-            'search' => V::alternative(V::string()->min(1), V::arr()->notEmpty()),
-            'replace' => V::alternative(V::string(), V::arr()->notEmpty())
+            'search' => V::alternative()->any(V::string()->min(1), V::arr()->notEmpty()),
+            'replace' => V::alternative()->any(V::string(), V::arr()->notEmpty())
         ]);
     }
 }
