@@ -6,6 +6,7 @@
     - [`assert($value, $schema)`](#assertvalue-schema)
     - [`attempt($value, $schema)`](#attemptvalue-schema)
     - [`any()`](#any)
+        - [`any::custom($callable)`](#anycustomcallable)
         - [`any::defaultValue($value)`](#anydefaultvaluevalue)
         - [`any::invalid($value)`](#anyinvalidvalue)
         - [`any::required()`](#anyrequired)
@@ -20,6 +21,7 @@
     - [`boolean()`](#array)
         - [`boolean::false()`](#booleanfalse)
         - [`boolean::true()`](#booleantrue)
+    - [`closure()`](#closure)
     - [`date()`](#date)
         - [`date::dateTimeObject($convert)`](#datedatetimeobjectconvert)
     - [`number()`](#number)
@@ -158,6 +160,37 @@ V::attempt(123, V::any()); // 123
 V::attempt(null, V::any()); // null
 ```
 
+#### `any::custom($callable)`
+
+Applies a custom validation implemented as a callback or any other callable expression. The callable need to accept
+one parameter, which is an `InputValue` object. To raise a validation error, callable needs to throw
+`ValidationException`. If exception is not thrown, library assumes the input value is valid.
+
+```php
+V::attempt('string', V::any()->custom(function (InputValue $input) {
+    if ($input->getValue() !== 'string') {
+        throw new ValidationException('A custom validation message');
+    }
+})); // Success - the result is 'string'
+
+V::attempt('string', V::any()->custom(function (InputValue $input) {
+    if ($input->getValue() === 'string') {
+        throw new ValidationException('A custom validation message');
+    }
+})); // ValidationException with message 'A custom validation message' is thrown
+```
+
+Custom callable also supports transformations.
+
+```php
+V::attempt('string', V::string()->custom(function (InputValue $input) {
+    $input->replace(function ($value) {
+        return md5($value);
+    });
+    // above is the same as: $input->setValue(md5($input->getValue()));
+})); // Result is 'b45cffe084dd3d20d928bee85e7b0f21'
+```
+
 #### `any::defaultValue($value)`
 
 Sets a default value if the relevant array key is missing. `$value` attribute might be a callback.
@@ -275,6 +308,10 @@ Checks if the input value is a boolean. Gives access to any boolean-specific ass
 
 *To be documented.*
 
+
+### `closure()`
+
+Checks if the input value is a closure or any other callable expression.
 
 ### `date()`
 

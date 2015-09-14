@@ -2,7 +2,9 @@
 
 namespace Validation\Tests;
 
+use Validation\InputValue;
 use Validation\Validation as V;
+use Validation\ValidationException;
 
 class AnySchemaTest extends \PHPUnit_Framework_TestCase
 {
@@ -153,5 +155,84 @@ class AnySchemaTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Wawelski', $user['lastname']);
         $this->assertEquals('2015-01-01 00:00:00', $user['created']->format('Y-m-d H:i:s'));
         $this->assertEquals('foo', $user['status']);
+    }
+
+    public function testAnyCustom()
+    {
+        $schema = V::string()->custom(function (InputValue $input) {
+            if ($input->getValue() !== 'string') {
+                throw new ValidationException('custom error message');
+            }
+        });
+
+        V::validate('string', $schema, function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals('string', $output);
+        });
+
+        $schema = V::string()->custom(function (InputValue $input) {
+            if ($input->getValue() === 'string') {
+                throw new ValidationException('custom error message');
+            }
+        });
+
+        V::validate('string', $schema, function ($err, $output) {
+            $this->assertEquals('custom error message', $err);
+            $this->assertNull($output);
+        });
+    }
+
+    public function testAnyCustomTransform()
+    {
+        $schema = V::number()->custom(function (InputValue $input) {
+            $input->replace(function ($value) {
+                return $value * 2;
+            });
+        });
+
+        V::validate(2, $schema, function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(4, $output);
+        });
+
+        V::validate(2.5, $schema, function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(5, $output);
+        });
+    }
+
+    public function testAnyCustomClassMethodPositive()
+    {
+        $obj = new TestAnyCustomBuiltinFunction();
+
+        V::validate('string', V::any()->custom([$obj, 'toUpper']), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals('STRING', $output);
+        });
+    }
+
+    public function testAnyCustomClassMethodNegative()
+    {
+        $obj = new TestAnyCustomBuiltinFunction();
+
+        V::validate('string', V::any()->custom([$obj, 'throwException']), function ($err, $output) {
+            $this->assertEquals('A custom validation message', $err);
+            $this->assertNull($output);
+        });
+    }
+}
+
+class TestAnyCustomBuiltinFunction
+{
+    public function toUpper(InputValue $input)
+    {
+        $input->replace(function ($value) {
+            return strtoupper($value);
+        });
+    }
+
+    public function throwException()
+    {
+        throw new ValidationException('A custom validation message');
     }
 }
