@@ -3,6 +3,7 @@
 namespace Validation\Tests;
 
 use Validation\InputValue;
+use Validation\Tests\stubs\TestAnyCustomClassMethod;
 use Validation\Validation as V;
 use Validation\ValidationException;
 
@@ -203,7 +204,7 @@ class AnySchemaTest extends \PHPUnit_Framework_TestCase
 
     public function testAnyCustomClassMethodPositive()
     {
-        $obj = new TestAnyCustomBuiltinFunction();
+        $obj = new TestAnyCustomClassMethod();
 
         V::validate('string', V::any()->custom([$obj, 'toUpper']), function ($err, $output) {
             $this->assertNull($err);
@@ -213,26 +214,11 @@ class AnySchemaTest extends \PHPUnit_Framework_TestCase
 
     public function testAnyCustomClassMethodNegative()
     {
-        $obj = new TestAnyCustomBuiltinFunction();
+        $obj = new TestAnyCustomClassMethod();
 
         V::validate('string', V::any()->custom([$obj, 'throwException']), function ($err, $output) {
             $this->assertEquals('A custom validation message', $err);
             $this->assertNull($output);
         });
-    }
-}
-
-class TestAnyCustomBuiltinFunction
-{
-    public function toUpper(InputValue $input)
-    {
-        $input->replace(function ($value) {
-            return strtoupper($value);
-        });
-    }
-
-    public function throwException()
-    {
-        throw new ValidationException('A custom validation message');
     }
 }
