@@ -55,4 +55,20 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
         V::assert('string', V::number());
     }
+
+    public function testMultipleErrors()
+    {
+        $input = [ 'foo' => 'bar', 'baz' => 'quux' ];
+
+        $schema = V::arr()->keys([
+            'foo' => V::number(),
+            'baz' => V::number()
+        ]);
+
+        V::validate($input, $schema, function ($err, $output) {
+            $this->assertEquals(2, $err->count());
+            $this->assertEquals('asdasd', $err->getErrors());
+            $this->assertNull($output);
+        });
+    }
 }
