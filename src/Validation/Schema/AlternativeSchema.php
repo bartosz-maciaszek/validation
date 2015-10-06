@@ -8,11 +8,12 @@ use Validation\Assertions;
 class AlternativeSchema extends AnySchema
 {
     /**
+     * @param ...$arguments
      * @return $this
      */
-    public function any()
+    public function any(...$arguments)
     {
-        $this->assert(new Assertions\AlternativeAny(['options' => Utils::variadicToArray(func_get_args())]));
+        $this->assert(new Assertions\AlternativeAny(['options' => Utils::variadicToArray($arguments)]));
 
         return $this;
     }
