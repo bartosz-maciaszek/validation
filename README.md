@@ -1,7 +1,7 @@
 About
 -----
 
-Validation library for PHP 5.4+ / HHVM inspired by [Joi](https://github.com/hapijs/joi) from [Hapi](http://hapijs.com).
+Validation library for PHP 5.6+ / PHP 7 / HHVM inspired by [Joi](https://github.com/hapijs/joi) from [Hapi](http://hapijs.com).
 
 [![Build Status](https://travis-ci.org/bartosz-maciaszek/validation.svg?branch=master)](https://travis-ci.org/bartosz-maciaszek/validation)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)

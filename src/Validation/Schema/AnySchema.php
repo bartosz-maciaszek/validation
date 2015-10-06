@@ -30,11 +30,12 @@ class AnySchema extends AbstractSchema
     }
 
     /**
+     * @param ...$arguments
      * @return $this
      */
-    public function invalid()
+    public function invalid(...$arguments)
     {
-        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::variadicToArray(func_get_args())]));
+        $this->assert(new Assertions\NotInArray(['disallowed' => Utils::variadicToArray($arguments)]));
 
         return $this;
     }
@@ -60,11 +61,12 @@ class AnySchema extends AbstractSchema
     }
 
     /**
+     * @param ...$arguments
      * @return $this
      */
-    public function valid()
+    public function valid(...$arguments)
     {
-        $this->assert(new Assertions\InArray(['allowed' => Utils::variadicToArray(func_get_args())]));
+        $this->assert(new Assertions\InArray(['allowed' => Utils::variadicToArray($arguments)]));
 
         return $this;
     }
