@@ -278,7 +278,15 @@ V::attempt(123, V::arr()); // ValidationException!
 
 #### `arr::keys($length)`
 
-*To be documented.*
+Checks if the input array has a set of specified keys. Each key can be checked against some rule.
+
+```php
+$valid = ['name' => 'John', 'surname' => 'Doe', 'email' => 'jd@example.com', 'sex' => 'male'];
+$invalid = [];
+
+V::attempt($valid, $schema); // Outputs the validated array
+V::attempt($invalid, $schema); // ValidationException with detailed message which key caused the error
+```
 
 #### `arr::length($length)`
 
@@ -332,6 +340,18 @@ Checks if the input value is a number. Gives access to any number-specific asser
 *To be documented.*
 
 #### `number::float()`
+
+*To be documented.*
+
+#### `number::min(number)`
+
+*To be documented.*
+
+#### `number::max(number)`
+
+*To be documented.*
+
+#### `number::between(min, max)`
 
 *To be documented.*
 
@@ -406,6 +426,10 @@ Checks if the input value is a string. Gives access to any string-specific asser
 *To be documented.*
 
 #### `string::url($options)`
+
+*To be documented.*
+
+#### `string::notEmpty()`
 
 *To be documented.*
 

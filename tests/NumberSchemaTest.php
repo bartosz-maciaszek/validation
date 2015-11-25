@@ -74,4 +74,98 @@ class NumberSchemaTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($output);
         });
     }
+
+    public function testNumberMin()
+    {
+        V::validate(10, V::number()->min(5), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(10, $output);
+        });
+
+        V::validate(5, V::number()->min(5), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(5, $output);
+        });
+
+        V::validate(4, V::number()->min(5), function ($err, $output) {
+            $this->assertEquals('value must be >= 5', $err);
+            $this->assertNull($output);
+        });
+
+        V::validate(0, V::number()->min(5), function ($err, $output) {
+            $this->assertEquals('value must be >= 5', $err);
+            $this->assertNull($output);
+        });
+
+        V::validate(-5, V::number()->min(5), function ($err, $output) {
+            $this->assertEquals('value must be >= 5', $err);
+            $this->assertNull($output);
+        });
+    }
+
+    public function testNumberMax()
+    {
+        V::validate(-5, V::number()->max(5), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(-5, $output);
+        });
+
+        V::validate(0, V::number()->max(5), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(0, $output);
+        });
+
+        V::validate(5, V::number()->max(5), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(5, $output);
+        });
+
+        V::validate(6, V::number()->max(5), function ($err, $output) {
+            $this->assertEquals('value must be <= 5', $err);
+            $this->assertNull($output);
+        });
+
+        V::validate(10, V::number()->max(5), function ($err, $output) {
+            $this->assertEquals('value must be <= 5', $err);
+            $this->assertNull($output);
+        });
+    }
+
+    public function testNumberBetween()
+    {
+        V::validate(0, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertEquals('value must be >= 5', $err);
+            $this->assertNull($output);
+        });
+
+        V::validate(4, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertEquals('value must be >= 5', $err);
+            $this->assertNull($output);
+        });
+
+        V::validate(5, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(5, $output);
+        });
+
+        V::validate(7, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(7, $output);
+        });
+
+        V::validate(10, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals(10, $output);
+        });
+
+        V::validate(11, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertEquals('value must be <= 10', $err);
+            $this->assertNull($output);
+        });
+
+        V::validate(100, V::number()->between(5, 10), function ($err, $output) {
+            $this->assertEquals('value must be <= 10', $err);
+            $this->assertNull($output);
+        });
+    }
 }

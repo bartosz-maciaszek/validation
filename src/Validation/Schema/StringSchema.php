@@ -166,4 +166,14 @@ class StringSchema extends AnySchema
 
         return $this;
     }
+
+    /**
+     * @return $this
+     */
+    public function notEmpty()
+    {
+        $this->assert(new Assertions\StringLengthMin(['length' => 1]));
+
+        return $this;
+    }
 }
