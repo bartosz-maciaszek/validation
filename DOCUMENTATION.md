@@ -27,6 +27,9 @@
     - [`number()`](#number)
         - [`number::integer()`](#numberinteger)
         - [`number::float()`](#numberfloat)
+        - [`number::min(number)`](#numberminnumber)
+        - [`number::max(number)`](#numbermaxnumber)
+        - [`number::between(min, max)`](#numberbetweenminmax)
     - [`object()`](#object)
         - [`object::instance($className)`](#objectinstanceclassname)
     - [`resource()`](#resource)
@@ -45,6 +48,7 @@
         - [`string::trim($convert)`](#stringurloptions)
         - [`string::uppercase($convert)`](#stringuppercaseconvert)
         - [`string::url($options)`](#stringurloptions)
+        - [`string::notEmpty()`](#stringnotempty)
     - [`alternative()`](#alternative)
         - [`string::any($schemas)`](#alternativeanyschemas)
 
