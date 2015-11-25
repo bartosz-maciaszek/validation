@@ -208,11 +208,11 @@ $input = [ 'firstname' => 'Smok', 'lastname' => 'Wawelski' ];
 $schema = V::arr()->keys([
     'firstname' => V::string(),
     'lastname' => V::string(),
-    'username' => V::string()->default(function ($context) {
+    'username' => V::string()->defaultValue(function ($context) {
         return strtolower($context['firstname'] . '-' . $context['lastname']);
     }),
-    'created' => V::date()->default(new \DateTime),
-    'status' => V::string()->default('registered')
+    'created' => V::date()->defaultValue(new \DateTime),
+    'status' => V::string()->defaultValue('registered')
 ]);
 
 $user = V::attempt($input, $schema);
