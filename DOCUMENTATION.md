@@ -29,7 +29,7 @@
         - [`number::float()`](#numberfloat)
         - [`number::min(number)`](#numberminnumber)
         - [`number::max(number)`](#numbermaxnumber)
-        - [`number::between(min, max)`](#numberbetweenminmax)
+        - [`number::between(min, max)`](#numberbetweenmin-max)
     - [`object()`](#object)
         - [`object::instance($className)`](#objectinstanceclassname)
     - [`resource()`](#resource)
