@@ -53,6 +53,11 @@ class NumberSchema extends AnySchema
         return $this;
     }
 
+    /**
+     * @param $min
+     * @param $max
+     * @return $this
+     */
     public function between($min, $max)
     {
         $this->min($min);
