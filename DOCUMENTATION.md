@@ -23,6 +23,9 @@
         - [`boolean::true()`](#booleantrue)
     - [`closure()`](#closure)
     - [`date()`](#date)
+        - [`date::after($time)`](#dateaftertime)
+        - [`date::before($time)`](#datebeforetime)
+        - [`date::between($time1, $time2)`](#datebetweentime1-time2)
         - [`date::dateTimeObject($convert)`](#datedatetimeobjectconvert)
     - [`number()`](#number)
         - [`number::integer()`](#numberinteger)
@@ -330,10 +333,45 @@ Checks if the input value is a closure or any other callable expression.
 
 Checks if the input value is a valid date string or `DateTime` object. Gives access to any date-specific assertions and filters.
 
-#### `date::dateTimeObject()`
+#### `date::after($time)`
 
-*To be documented.*
+Checks if the input value is after a specific date/time.
 
+```php
+V::attempt('2015-07-01', V::date()->after('2015-01-01')); // '2015-07-01'
+V::attempt('2015-07-01 12:40:00', V::date()->after('2015-07-01 12:30:00')); // '2015-07-01 12:40:00'
+V::attempt('2015-07-01 12:40:00', V::date()->after('2015-07-01 13:00:00')); // ValidationException!
+```
+
+#### `date::before($time)`
+
+Checks if the input value is after a specific date/time.
+
+```php
+V::attempt('2015-07-01', V::date()->before('2015-10-01')); // '2015-07-01'
+V::attempt('2015-07-01 12:40:00', V::date()->before('2015-07-01 13:00:00')); // '2015-07-01 12:40:00'
+V::attempt('2015-07-01 12:40:00', V::date()->before('2015-07-01 12:00:00')); // ValidationException!
+```
+
+#### `date::between($time1, $time2)`
+
+Checks if the input value is between two dates/times.
+
+```php
+V::attempt('2015-07-01', V::date()->between('2015-01-01', '2015-10-01')); // '2015-07-01'
+V::attempt('2015-07-01 12:40:00', V::date()->between('2015-07-01 12:00:00', '2015-07-01 13:00:00')); // '2015-07-01 12:40:00'
+V::attempt('2015-07-01 12:40:00', V::date()->between('2015-07-01 10:00:00', '2015-07-01 11:00:00')); // ValidationException!
+```
+
+#### `date::dateTimeObject($convert)`
+
+If `$convert` parameter is `true` (default), it converts the input value to `DateTime` object, otherwise it checks if the input value is a `DateTime` object.
+
+```php
+V::attempt('2015-07-01', V::date()->dateTimeObject()); // DateTime object
+V::attempt(new \DateTime('2015-07-01'), V::date()->dateTimeObject(false)); // DateTime object
+V::attempt('2015-07-01', V::date()->dateTimeObject(false)); // ValidationException!
+```
 
 ### `number()`
 

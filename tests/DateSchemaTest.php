@@ -3,6 +3,7 @@
 namespace Validation\Tests;
 
 use Validation\Validation as V;
+use Validation\ValidationException;
 
 class DateSchemaTest extends \PHPUnit_Framework_TestCase
 {
@@ -76,6 +77,68 @@ class DateSchemaTest extends \PHPUnit_Framework_TestCase
         V::validate('2015-01-01', V::date()->dateTimeObject(false), function ($err, $output) {
             $this->assertEquals('value is not a DateTime object', $err);
             $this->assertNull($output);
+        });
+    }
+
+    public function testAfter()
+    {
+        V::validate('2015-06-01', V::date()->after('2015-05-30'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 06:00:01', V::date()->after('2015-06-01 06:00:00'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 06:00:00', V::date()->after('2015-06-01 06:00:00'), function ($err, $output) {
+            $this->assertNull($output);
+            /** @var ValidationException $err */
+            $this->assertContains('Date should be after', $err->getMessage());
+        });
+    }
+
+    public function testBefore()
+    {
+        V::validate('2015-05-30', V::date()->before('2015-06-01'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 06:00:00', V::date()->before('2015-06-01 06:00:01'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 06:00:00', V::date()->before('2015-06-01 06:00:00'), function ($err, $output) {
+            $this->assertNull($output);
+            /** @var ValidationException $err */
+            $this->assertContains('Date should be before', $err->getMessage());
+        });
+    }
+
+    public function testBetween()
+    {
+        V::validate('2015-05-30', V::date()->between('2015-05-01', '2015-06-01'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 06:00:00', V::date()->between('2015-06-01 05:59:59', '2015-06-01 06:00:01'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 06:00:00', V::date()->between('2015-06-01 06:00:00', '2015-06-01 07:00:00'), function ($err, $output) {
+            $this->assertNotNull($output);
+            $this->assertNull($err);
+        });
+
+        V::validate('2015-06-01 05:00:00', V::date()->between('2015-06-01 06:00:00', '2015-06-01 07:00:00'), function ($err, $output) {
+            $this->assertNull($output);
+            /** @var ValidationException $err */
+            $this->assertContains('Date should be between', $err->getMessage());
         });
     }
 }
