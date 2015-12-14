@@ -23,7 +23,7 @@ class DateBetween extends AbstractAssertion
         $time1 = $this->getOption('time1');
         $time2 = $this->getOption('time2');
 
-        if ($date < $time1 || $date > $time2 ) {
+        if ($date < $time1 || $date > $time2) {
             throw new ValidationException('Date should be between '
                 . $time1->format(\DateTime::ISO8601) . ' and '
                 . $time2->format(\DateTime::ISO8601));
