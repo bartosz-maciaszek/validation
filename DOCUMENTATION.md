@@ -23,10 +23,16 @@
         - [`boolean::true()`](#booleantrue)
     - [`closure()`](#closure)
     - [`date()`](#date)
+        - [`date::after($time)`](#dateaftertime)
+        - [`date::before($time)`](#datebeforetime)
+        - [`date::between($time1, $time2)`](#datebetweentime1-time2)
         - [`date::dateTimeObject($convert)`](#datedatetimeobjectconvert)
     - [`number()`](#number)
         - [`number::integer()`](#numberinteger)
         - [`number::float()`](#numberfloat)
+        - [`number::min(number)`](#numberminnumber)
+        - [`number::max(number)`](#numbermaxnumber)
+        - [`number::between(min, max)`](#numberbetweenmin-max)
     - [`object()`](#object)
         - [`object::instance($className)`](#objectinstanceclassname)
     - [`resource()`](#resource)
@@ -45,6 +51,7 @@
         - [`string::trim($convert)`](#stringurloptions)
         - [`string::uppercase($convert)`](#stringuppercaseconvert)
         - [`string::url($options)`](#stringurloptions)
+        - [`string::notEmpty()`](#stringnotempty)
     - [`alternative()`](#alternative)
         - [`string::any($schemas)`](#alternativeanyschemas)
 
@@ -204,11 +211,11 @@ $input = [ 'firstname' => 'Smok', 'lastname' => 'Wawelski' ];
 $schema = V::arr()->keys([
     'firstname' => V::string(),
     'lastname' => V::string(),
-    'username' => V::string()->default(function ($context) {
+    'username' => V::string()->defaultValue(function ($context) {
         return strtolower($context['firstname'] . '-' . $context['lastname']);
     }),
-    'created' => V::date()->default(new \DateTime),
-    'status' => V::string()->default('registered')
+    'created' => V::date()->defaultValue(new \DateTime),
+    'status' => V::string()->defaultValue('registered')
 ]);
 
 $user = V::attempt($input, $schema);
@@ -278,7 +285,15 @@ V::attempt(123, V::arr()); // ValidationException!
 
 #### `arr::keys($length)`
 
-*To be documented.*
+Checks if the input array has a set of specified keys. Each key can be checked against some rule.
+
+```php
+$valid = ['name' => 'John', 'surname' => 'Doe', 'email' => 'jd@example.com', 'sex' => 'male'];
+$invalid = [];
+
+V::attempt($valid, $schema); // Outputs the validated array
+V::attempt($invalid, $schema); // ValidationException with detailed message which key caused the error
+```
 
 #### `arr::length($length)`
 
@@ -318,10 +333,45 @@ Checks if the input value is a closure or any other callable expression.
 
 Checks if the input value is a valid date string or `DateTime` object. Gives access to any date-specific assertions and filters.
 
-#### `date::dateTimeObject()`
+#### `date::after($time)`
 
-*To be documented.*
+Checks if the input value is after a specific date/time.
 
+```php
+V::attempt('2015-07-01', V::date()->after('2015-01-01')); // '2015-07-01'
+V::attempt('2015-07-01 12:40:00', V::date()->after('2015-07-01 12:30:00')); // '2015-07-01 12:40:00'
+V::attempt('2015-07-01 12:40:00', V::date()->after('2015-07-01 13:00:00')); // ValidationException!
+```
+
+#### `date::before($time)`
+
+Checks if the input value is after a specific date/time.
+
+```php
+V::attempt('2015-07-01', V::date()->before('2015-10-01')); // '2015-07-01'
+V::attempt('2015-07-01 12:40:00', V::date()->before('2015-07-01 13:00:00')); // '2015-07-01 12:40:00'
+V::attempt('2015-07-01 12:40:00', V::date()->before('2015-07-01 12:00:00')); // ValidationException!
+```
+
+#### `date::between($time1, $time2)`
+
+Checks if the input value is between two dates/times.
+
+```php
+V::attempt('2015-07-01', V::date()->between('2015-01-01', '2015-10-01')); // '2015-07-01'
+V::attempt('2015-07-01 12:40:00', V::date()->between('2015-07-01 12:00:00', '2015-07-01 13:00:00')); // '2015-07-01 12:40:00'
+V::attempt('2015-07-01 12:40:00', V::date()->between('2015-07-01 10:00:00', '2015-07-01 11:00:00')); // ValidationException!
+```
+
+#### `date::dateTimeObject($convert)`
+
+If `$convert` parameter is `true` (default), it converts the input value to `DateTime` object, otherwise it checks if the input value is a `DateTime` object.
+
+```php
+V::attempt('2015-07-01', V::date()->dateTimeObject()); // DateTime object
+V::attempt(new \DateTime('2015-07-01'), V::date()->dateTimeObject(false)); // DateTime object
+V::attempt('2015-07-01', V::date()->dateTimeObject(false)); // ValidationException!
+```
 
 ### `number()`
 
@@ -332,6 +382,18 @@ Checks if the input value is a number. Gives access to any number-specific asser
 *To be documented.*
 
 #### `number::float()`
+
+*To be documented.*
+
+#### `number::min(number)`
+
+*To be documented.*
+
+#### `number::max(number)`
+
+*To be documented.*
+
+#### `number::between(min, max)`
 
 *To be documented.*
 
@@ -406,6 +468,10 @@ Checks if the input value is a string. Gives access to any string-specific asser
 *To be documented.*
 
 #### `string::url($options)`
+
+*To be documented.*
+
+#### `string::notEmpty()`
 
 *To be documented.*
 

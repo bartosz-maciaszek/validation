@@ -30,4 +30,17 @@ class Utils
 
         return [$arg];
     }
+
+    /**
+     * @param $date
+     * @return \DateTime
+     */
+    public static function toDateObject($date)
+    {
+        if ($date instanceof \DateTime) {
+            return $date;
+        }
+
+        return new \DateTime($date);
+    }
 }

@@ -2,8 +2,12 @@ language: php
 
 php:
   - 5.6
+  - 7.0
   - hhvm
-  - nightly
+
+matrix:
+  allow_failures:
+    - php: hhvm
 
 before_install:
   - composer self-update
@@ -15,5 +19,5 @@ script:
   - make cs
   - make test
 
-after_script:
-  - make coveralls
+#after_script:
+#  - make coveralls

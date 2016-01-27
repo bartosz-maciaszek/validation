@@ -3,6 +3,7 @@
 namespace Validation\Assertions;
 
 use Validation\Schema\AbstractSchema;
+use Validation\Utils;
 use Validation\Validation as V;
 use Validation\InputValue;
 use Validation\ValidationException;
@@ -19,11 +20,9 @@ class DateTimeObject extends AbstractAssertion
             throw new ValidationException('value is not a DateTime object');
         }
 
-        if (!$input->getValue() instanceof \DateTime) {
-            $input->replace(function ($value) {
-                return new \DateTime($value);
-            });
-        }
+        $input->replace(function ($value) {
+            return Utils::toDateObject($value);
+        });
     }
 
     /**

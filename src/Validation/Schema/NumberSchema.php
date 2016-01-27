@@ -30,4 +30,39 @@ class NumberSchema extends AnySchema
 
         return $this;
     }
+
+    /**
+     * @param $number
+     * @return $this
+     */
+    public function min($number)
+    {
+        $this->assert(new Assertions\NumberMin(['number' => $number]));
+
+        return $this;
+    }
+
+    /**
+     * @param $number
+     * @return $this
+     */
+    public function max($number)
+    {
+        $this->assert(new Assertions\NumberMax(['number' => $number]));
+
+        return $this;
+    }
+
+    /**
+     * @param $min
+     * @param $max
+     * @return $this
+     */
+    public function between($min, $max)
+    {
+        $this->min($min);
+        $this->max($max);
+
+        return $this;
+    }
 }

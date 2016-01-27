@@ -440,4 +440,17 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
 
         V::assert('foo', V::string()->trim('foo'));
     }
+
+    public function testStringNotEmpty()
+    {
+        V::validate('foo', V::string()->notEmpty(), function ($err, $output) {
+            $this->assertNull($err);
+            $this->assertEquals('foo', $output);
+        });
+
+        V::validate('', V::string()->notEmpty(), function ($err, $output) {
+            $this->assertEquals('value length < 1', $err);
+            $this->assertNull($output);
+        });
+    }
 }
