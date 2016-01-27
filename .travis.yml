@@ -19,5 +19,5 @@ script:
   - make cs
   - make test
 
-#after_script:
-#  - make coveralls
+after_script:
+  - make coveralls
