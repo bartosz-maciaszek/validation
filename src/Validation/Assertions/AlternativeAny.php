@@ -21,6 +21,8 @@ class AlternativeAny extends AbstractAssertion
                 });
                 return;
             } catch (ValidationException $e) {
+                var_dump($e);
+                exit;
             }
         }
 
