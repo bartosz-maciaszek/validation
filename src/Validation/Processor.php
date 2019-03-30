@@ -14,7 +14,7 @@ class Processor implements Visitor
     /**
      * @var ValidationException[]
      */
-    private $errors = null;
+    private $errors = [];
 
     /**
      * @param InputValue $input

@@ -30,6 +30,7 @@ class Validation
     /**
      * @param $value
      * @param AbstractSchema $schema
+     * @throws ValidationException
      */
     public static function assert($value, AbstractSchema $schema)
     {
@@ -40,6 +41,7 @@ class Validation
      * @param $value
      * @param AbstractSchema $schema
      * @return mixed
+     * @throws ValidationException
      */
     public static function attempt($value, AbstractSchema $schema)
     {

@@ -6,7 +6,7 @@ use Validation\Utils;
 
 class UtilsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testVaradicToArray()
+    public function testVariadicToArray()
     {
         $function = $this->provideVariadicFunction();
 

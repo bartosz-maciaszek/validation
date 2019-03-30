@@ -25,13 +25,22 @@ abstract class AbstractAssertion implements Visitable
     }
 
     /**
+     * @param string $name
+     * @return bool
+     */
+    public function hasOption(string $name): bool
+    {
+        return array_key_exists($name, $this->options);
+    }
+
+    /**
      * @param $name
      * @param mixed $default
      * @return mixed
      */
     public function getOption($name, $default = null)
     {
-        if (!isset($this->options[$name])) {
+        if (!$this->hasOption($name)) {
             return $default;
         }
 

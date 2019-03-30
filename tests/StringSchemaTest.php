@@ -241,8 +241,6 @@ class StringSchemaTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($err);
             $this->assertEquals('bazbaz', $output);
         });
-
-        exit;
     }
 
     public function testStringEmail()
