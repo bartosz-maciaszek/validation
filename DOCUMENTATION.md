@@ -100,7 +100,7 @@ The code snippet illustrates how to check an input array against a set of constr
 
 Once validation process has completed, the callback is invoked. If there was a failure, `$err` argument contains
 `ValidationException` object and `$output` argument is `null`. Otherwise `$err` argument is `null` and
-`$output` argument contains validated/filtered input value. 
+`$output` argument contains validated/filtered input value.
 
 # Usage
 
@@ -398,11 +398,11 @@ Checks if the input value is a number. Gives access to any number-specific asser
 *To be documented.*
 
 
-### `object()`
+### `obj()`
 
 Checks if the input value is an object. Gives access to any object-specific assertions and filters.
 
-#### `object::instance($className)`
+#### `obj::instance($className)`
 
 *To be documented.*
 

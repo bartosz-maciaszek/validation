@@ -21,4 +21,15 @@ class ObjectSchema extends AnySchema
 
         return $this;
     }
+
+    /**
+     * @param array $keys
+     * @return $this
+     */
+    public function keys(array $keys)
+    {
+        $this->assert(new Assertions\ObjectKeys(['keys' => $keys]));
+
+        return $this;
+    }
 }

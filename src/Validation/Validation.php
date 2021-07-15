@@ -65,7 +65,7 @@ class Validation
     /**
      * @return Schema\ObjectSchema
      */
-    public static function object()
+    public static function obj()
     {
         return new Schema\ObjectSchema();
     }
